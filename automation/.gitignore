@@ -1,0 +1,35 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+.env/
+
+# Logs
+logs/
+*.log
+
+# Data files
+data/raw/
+data/processed/
+data/output/
+*.csv
+*.json
+*.xlsx
+*.parquet
+*.db
+*.h5
+
+# Editor and OS files
+.DS_Store
+.vscode/
+*.swp
+*.swo
+*.bak
+*.tmp
+*.temp
+
+# Environment variables
+.env
