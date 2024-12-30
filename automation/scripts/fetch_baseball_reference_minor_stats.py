@@ -56,7 +56,7 @@ for index, row in data.head(2).iterrows():
         # G, PA, AB, R, H, 2B, 3B, HR, RBI, SB, CS, BB, SO, BA, OBP, SLG, OPS, TB
         
         # Add new stats to the original DataFrame
-        for stat in ['G', 'PA', 'AB', ' R', 'H', '2B', '3B', 'HR', 'RBI', 'SB', 'CS', 'BB', 'SO', 'batting_avg', 'onbase_perc', 'slugging_perc', 'onbase_plus_slugging', 'TB']:
+        for stat in ['level','G', 'PA', 'AB', ' R', 'H', '2B', '3B', 'HR', 'RBI', 'SB', 'CS', 'BB', 'SO', 'batting_avg', 'onbase_perc', 'slugging_perc', 'onbase_plus_slugging', 'TB']:
             data.at[index, stat] = first_row_dict.get(stat, None)
         
         # Get also the careers stats. find in the soup a div with class "stats_pullout"
@@ -87,6 +87,7 @@ for index, row in data.head(2).iterrows():
         })
 # rename the columns to the new stats
 data.rename(columns={
+    'level': 'Mi_level',
     'G': 'Mi_G',
     'PA': 'Mi_PA',
     'AB': 'Mi_AB',
@@ -108,7 +109,7 @@ data.rename(columns={
 }, inplace=True)
 
 # Step 3: Save the results to a new CSV file
-output_file = "data/processed/drafted_players_1990_2015_with_baseball_reference_ids_and_stats.csv"
+output_file = "data/processed/1990_2015_drafts_with_stats.csv"
 data.to_csv(output_file, index=False)
 
 print(f"Scraping completed. Results saved to {output_file}.")
