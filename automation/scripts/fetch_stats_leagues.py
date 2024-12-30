@@ -3,12 +3,10 @@ import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import os
+from utils.proxy_scraper import fetch_with_proxy
 
 load_dotenv()
 
-proxies = {
-    "https": f"https://{os.getenv('PROXY_USERNAME')}:{os.getenv('PROXY_PASSWORD')}@{os.getenv('PROXY_SERVER')}"
-}
 
 mongo_uri = os.getenv("MONGO_URI")
 
@@ -42,7 +40,7 @@ if __name__ == "__main__":
     # Iterate from 1990 to 2015, 
     for year in range(1990, 2016):
         url = f"https://www.baseball-reference.com/register/league.cgi?year={year}"
-        response = requests.get(url, proxies=proxies)
+        response = fetch_with_proxy(url)
 
         soup = BeautifulSoup(response.text, 'html.parser')
 

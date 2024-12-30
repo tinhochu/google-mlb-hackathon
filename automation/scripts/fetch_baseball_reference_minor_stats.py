@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-
+from utils.proxy_scraper import fetch_with_proxy
 # Step 1: Read the CSV file
 csv_file = "data/raw/drafted_players_1990_2015_with_baseball_reference_ids.csv"  # Replace with your CSV file name
 data = pd.read_csv(csv_file)
@@ -18,7 +18,7 @@ for index, row in data.head(2).iterrows():
     url = row['Slug Path']
     try:
         # Step 2.1: Send a GET request
-        response = requests.get(f"https://www.baseball-reference.com/players{url}")
+        response = fetch_with_proxy(f"https://www.baseball-reference.com/players{url}")
         
         response.raise_for_status()  # Raise an exception for HTTP errors
         
@@ -35,7 +35,7 @@ for index, row in data.head(2).iterrows():
 
         # get that href and navigate to it
         register_url = register_link['href']
-        response = requests.get(f"https://www.baseball-reference.com{register_url}")
+        response = fetch_with_proxy(f"https://www.baseball-reference.com{register_url}")
         soup = BeautifulSoup(response.text, 'html.parser')
 
         # find a table with the id "standard_batting"
@@ -53,11 +53,16 @@ for index, row in data.head(2).iterrows():
         # the new file should be called "drafted_players_1990_2015_with_baseball_reference_ids_and_stats.csv"
         # the new file should have the same columns as the original csv plus the new stats
         # the new stats are:
-        # G, PA, AB, R, H, 2B, 3B, HR, RBI, SB, CS, BB, SO, BA, OBP, SLG, OPS, TB
+        # level, age, age_diff, lg_ID, G, PA, AB, R, H, 2B, 3B, HR, RBI, SB, CS, BB, SO, BA, OBP, SLG, OPS, TB
         
         # Add new stats to the original DataFrame
-        for stat in ['level','G', 'PA', 'AB', ' R', 'H', '2B', '3B', 'HR', 'RBI', 'SB', 'CS', 'BB', 'SO', 'batting_avg', 'onbase_perc', 'slugging_perc', 'onbase_plus_slugging', 'TB']:
-            data.at[index, stat] = first_row_dict.get(stat, None)
+        for stat in ['level', 'age', 'age_diff', 'lg_ID', 'G', 'PA', 'AB', ' R', 'H', '2B', '3B', 'HR', 'RBI', 'SB', 'CS', 'BB', 'SO', 'batting_avg', 'onbase_perc', 'slugging_perc', 'onbase_plus_slugging', 'TB']:
+            if stat == 'lg_ID':
+                # Extract lg_ID from the anchor tag
+                col_league = first_row_dict.get(stat, None)
+                data.at[index, stat] = col_league
+            else:
+                data.at[index, stat] = first_row_dict.get(stat, None)
         
         # Get also the careers stats. find in the soup a div with class "stats_pullout"
         stats_pullout = soup.find('div', class_='stats_pullout')
@@ -88,6 +93,9 @@ for index, row in data.head(2).iterrows():
 # rename the columns to the new stats
 data.rename(columns={
     'level': 'Mi_level',
+    'age': 'Mi_Age',
+    'age_diff': 'Mi_Age_diff',
+    'lg_ID': 'Mi_League',
     'G': 'Mi_G',
     'PA': 'Mi_PA',
     'AB': 'Mi_AB',
