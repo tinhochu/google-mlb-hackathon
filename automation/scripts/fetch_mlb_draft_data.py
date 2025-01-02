@@ -1,6 +1,7 @@
 import requests
 import pandas as pd
 import os
+from tqdm import tqdm
 
 # API endpoint URL (replace `{year}` with the year variable in the loop)
 API_URL_TEMPLATE = "https://statsapi.mlb.com/api/v1/draft/{year}"  # Replace with your actual API URL
@@ -50,6 +51,15 @@ def fetch_draft_data_for_year(api_url, year):
         players = []
         for round_data in rounds:
             for player in round_data.get("picks", []):  # Iterate over players in each round
+                
+                # skip pitchers
+                if player.get("person", {}).get("primaryPosition", {}).get("abbreviation", "") == "P":
+                    continue
+
+                # skip if mlb debut date is not available
+                if "mlbDebutDate" not in player.get("person", {}):
+                    continue
+                
                 players.append(process_player_data(player, year))
         return players
     else:
@@ -65,8 +75,7 @@ if __name__ == "__main__":
     os.makedirs(output_dir, exist_ok=True)  # Create directory
 
     # Loop through all years from 1990 to 2015
-    for year in range(1990, 2016):
-        print(f"Fetching data for the year {year}...")
+    for year in tqdm(range(1990, 2016), desc="Fetching data for years 1990-2015"):
         year_data = fetch_draft_data_for_year(API_URL_TEMPLATE, year)
         all_draft_data.extend(year_data)  # Append the year's data to the master list
 

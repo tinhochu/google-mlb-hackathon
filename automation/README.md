@@ -140,6 +140,14 @@ Logs for script execution are saved in the `logs/` folder. Check `script_logs.lo
 
 ---
 
+## **Process for fetching data**
+
+1. Run `fetch_mlb_draft_data.py` to fetch the data from the API.
+2. Run `fetch_stats_leagues.py` to fetch the data from the API. and save it to MongoDB.
+3. Run `match_players_slugs.py` to match the players to the slugs. from Baseball Reference.
+4. Run `fetch_baseball_reference_minor_stats.py` to fetch the data from the API.
+5. Run `calculate_scouting_grades.py` to calculate the scouting grades.
+
 ## **Contact**
 
 For questions or support, contact:
