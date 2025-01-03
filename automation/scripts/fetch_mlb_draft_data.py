@@ -62,17 +62,21 @@ def convert_height(height_str):
 # Function to fetch player stats
 def fetch_player_stats(person_id):
     if person_id is None:
-        return {}
+        return {}, False  # Return empty stats and failure flag
 
     url = f"https://statsapi.mlb.com/api/v1/people/{person_id}/stats?stats=yearByYear,career,yearByYearAdvanced,careerAdvanced&leagueListId=milb_all"
     stats = requests.get(url).json().get("stats", [])
-    return stats[0] if stats else {}
+    
+    if stats:
+        return stats[0], True  # Return stats and success flag
+    else:
+        return {}, False  # Return empty stats and failure flag
 
 # Function to process a single player's data
 def process_player_data(player, year):
     person = player.get("person", {})
     team = player.get("team", {})
-    stats = fetch_player_stats(person.get("id"))
+    stats, fetched = fetch_player_stats(person.get("id"))  # Capture the fetched status
 
     # Safely access stats and splits
     splits = stats.get('splits', [])
@@ -94,6 +98,7 @@ def process_player_data(player, year):
         "MLB Debut": person.get("mlbDebutDate", "No MLB Debut"),
         "Last Played Date": person.get("lastPlayedDate", "No Last Played Date"),
         "Is_Pitcher": person.get("primaryPosition", {}).get("abbreviation", "") == "P",
+        "Stats Fetched": fetched,  # Add the fetched status
     }
 
     # Fill missing batter stats with 0

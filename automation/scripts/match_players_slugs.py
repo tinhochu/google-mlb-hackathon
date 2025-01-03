@@ -26,8 +26,8 @@ def get_closest_id_by_draft_year(csv1_path, csv2_path, output_path):
         output_rows.append(header)
 
         for row in reader:
-            player_name = row[1]  # Assuming Player Name is the second column
-            draft_year = int(row[2]) if row[2].isdigit() else None
+            player_name = row[2]  # Assuming Player Name is the second column
+            draft_year = int(row[3]) if row[3].isdigit() else None
             
             matching_id = ""
             slug_path = ""

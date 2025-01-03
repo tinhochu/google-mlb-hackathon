@@ -1,7 +1,7 @@
 import pandas as pd
 
 # Load the dataset
-df = pd.read_csv("data/processed/02.drafted_players_with_stats.csv")
+df = pd.read_csv("data/processed/01.drafted_players.csv")
 
 # Check for missing values in each column
 missing_values = df.isnull().sum()
