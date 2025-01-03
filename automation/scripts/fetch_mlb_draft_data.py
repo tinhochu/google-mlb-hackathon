@@ -2,6 +2,7 @@ import requests
 import pandas as pd
 import os
 from tqdm import tqdm
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # API endpoint URL (replace `{year}` with the year variable in the loop)
 API_URL_TEMPLATE = "https://statsapi.mlb.com/api/v1/draft/{year}"  # Replace with your actual API URL
@@ -60,13 +61,12 @@ def convert_height(height_str):
 
 # Function to fetch player stats
 def fetch_player_stats(person_id):
-    # bail early if person_id is None
     if person_id is None:
         return {}
 
     url = f"https://statsapi.mlb.com/api/v1/people/{person_id}/stats?stats=yearByYear,career,yearByYearAdvanced,careerAdvanced&leagueListId=milb_all"
     stats = requests.get(url).json().get("stats", [])
-    return stats[0] if stats else {}  # Return an empty dict if stats list is empty
+    return stats[0] if stats else {}
 
 # Function to process a single player's data
 def process_player_data(player, year):
@@ -74,7 +74,12 @@ def process_player_data(player, year):
     team = player.get("team", {})
     stats = fetch_player_stats(person.get("id"))
 
+    # Safely access stats and splits
+    splits = stats.get('splits', [])
+    stats = splits[0].get('stat', {}) if splits else {}
+
     player_stats = {
+        "stats_available": stats != {},
         "Player ID": int(person.get("id", 0)),
         "Player Name": person.get("fullName", None),
         "Draft Year": year,
@@ -91,12 +96,15 @@ def process_player_data(player, year):
         "Is_Pitcher": person.get("primaryPosition", {}).get("abbreviation", "") == "P",
     }
 
+    # Fill missing batter stats with 0
+    player_stats.update({key: 0 for key in BATTER_KEYS.keys()})
+    # Fill missing pitcher stats with 0
+    player_stats.update({key: 0 for key in PITCHER_KEYS.keys()})
+
     if player_stats["Is_Pitcher"]:
         player_stats.update({key: stats.get(stat_key, 0 if key not in ["ERA", "AVG", "WHIP"] else 0.0) for key, stat_key in PITCHER_KEYS.items()})
     else:
         player_stats.update({key: stats.get(stat_key, 0 if key not in ["AVG", "OBP", "SLG", "OPS"] else 0.0) for key, stat_key in BATTER_KEYS.items()})
-        # Add missing pitcher stats with default values
-        player_stats.update({key: 0 for key in PITCHER_KEYS.keys()})
 
     return player_stats
 
@@ -104,34 +112,51 @@ def process_player_data(player, year):
 def fetch_draft_data_for_year(api_url, year):
     url = api_url.format(year=year)
     response = requests.get(url)
-    
+
     if response.status_code == 200:
         data = response.json()  # Parse the JSON response
         rounds = data.get("drafts", {}).get("rounds", [])
         players = []
         for round_data in rounds:
-            for player in round_data.get("picks", []):  # Iterate over players in each round
-                players.append(process_player_data(player, year))
+            for player in round_data.get("picks", []):
+                players.append((player, year))  # Return the raw player data and year
         return players
     else:
         print(f"Failed to fetch data for {year}. Status code: {response.status_code}")
         return []
 
+# Parallel processing for players
+def process_players_in_parallel(players):
+    results = []
+    with ThreadPoolExecutor() as executor:
+        future_to_player = {executor.submit(process_player_data, player, year): (player, year) for player, year in players}  # Limit to 20 players
+
+        for future in tqdm(as_completed(future_to_player), total=len(players), desc="Processing players"):
+            try:
+                results.append(future.result())
+            except Exception as e:
+                print(f"Error processing player: {e}")
+
+    return results
+
 # Main script execution
 if __name__ == "__main__":
+    all_players = []
     all_draft_data = []
     output_dir = "data/raw"
     os.makedirs(output_dir, exist_ok=True)
 
-    for year in tqdm(range(1990, 1991), desc="Fetching data for years 1990-2015"):
-        year_data = fetch_draft_data_for_year(API_URL_TEMPLATE, year)
-        all_draft_data.extend(year_data)
+    for year in tqdm(range(1990, 1991), desc="Fetching draft data"):
+        players = fetch_draft_data_for_year(API_URL_TEMPLATE, year)
+        all_players.extend(players)
+
+    if all_players:
+        all_draft_data = process_players_in_parallel(all_players)
 
     if all_draft_data:
         df = pd.DataFrame(all_draft_data)
         csv_file = os.path.join(output_dir, "drafted_players_1990_2015.csv")
         df.to_csv(csv_file, index=False)
         print(f"Data for all years saved to {csv_file}")
-        print(df.head())
     else:
         print("No draft data was fetched or processed.")
