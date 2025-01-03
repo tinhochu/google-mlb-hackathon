@@ -15,6 +15,7 @@ logs/
 data/raw/
 data/processed/
 data/output/
+data/datasets/
 *.csv
 *.json
 *.xlsx
