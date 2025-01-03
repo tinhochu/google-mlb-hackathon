@@ -146,7 +146,7 @@ if __name__ == "__main__":
     output_dir = "data/raw"
     os.makedirs(output_dir, exist_ok=True)
 
-    for year in tqdm(range(1990, 1991), desc="Fetching draft data"):
+    for year in tqdm(range(1990, 2016), desc="Fetching draft data"):
         players = fetch_draft_data_for_year(API_URL_TEMPLATE, year)
         all_players.extend(players)
 
