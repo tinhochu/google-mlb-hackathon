@@ -51,7 +51,7 @@ def get_closest_id_by_draft_year(csv1_path, csv2_path, output_path):
         writer.writerows(output_rows)
 
 # Paths to your CSV files
-csv1_path = 'data/raw/drafted_players_1990_2015.csv'  # Replace with your actual file path
+csv1_path = 'data/processed/01.drafted_players.csv'  # Replace with your actual file path
 csv2_path = 'data/raw/br_players_list.csv'  # Replace with your actual file path
 output_path = 'data/processed/01.drafted_players_with_baseball_ids.csv'  # Replace with your desired output file path
 
