@@ -4,9 +4,31 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 
+def remove_column_from_csv(input_file, output_file, column_name):
+    # Read the CSV file
+    df = pd.read_csv(input_file)
+
+    # check if the Column Exists
+    if column_name in df.columns:
+        # Remove the specified column
+        df.drop(column_name, axis=1, inplace=True)
+        
+        # Save the modified DataFrame to a new CSV file
+        df.to_csv(output_file, index=False)
+    else:
+        print(f"Column '{column_name}' not found in the CSV file.")
+
+# Remove the columns
+remove_column_from_csv('data/output/updated_players.csv', 'data/output/updated_players.csv', 'Last Played Date')
+remove_column_from_csv('data/output/updated_players.csv', 'data/output/updated_players.csv', 'Slug Path')
+remove_column_from_csv('data/output/updated_players.csv', 'data/output/updated_players.csv', 'Second CSV ID')
+
 # Load the cleaned dataset
 input_file = "data/output/updated_players.csv"  # Replace with your file path
 df = pd.read_csv(input_file)
+
+# Replace "No MLB Debut" with 0, and others with 1
+df['MLB Debut'] = df['MLB Debut'].apply(lambda x: 0 if x == 'No MLB Debut' else 1)
 
 # Initialize encoders and scaler
 label_encoder = LabelEncoder()
