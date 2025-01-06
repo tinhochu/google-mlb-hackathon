@@ -7,7 +7,6 @@ from utils.proxy_scraper import fetch_with_proxy
 
 load_dotenv()
 
-
 mongo_uri = os.getenv("MONGO_URI")
 
 # Connect to MongoDB

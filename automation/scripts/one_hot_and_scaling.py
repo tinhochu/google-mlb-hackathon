@@ -1,52 +1,77 @@
 import pandas as pd
-from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 # Load the cleaned dataset
-input_file = "data/processed/02.drafted_players_with_stats.csv"  # Replace with your file path
+input_file = "data/output/updated_players.csv"  # Replace with your file path
 df = pd.read_csv(input_file)
 
-# Define the feature columns
-feature_columns = [
-    "Mi_G",           # Games played in the minor leagues
-    "Mi_PA",          # Plate appearances in the minor leagues
-    "Mi_AB",          # At-bats in the minor leagues
-    "Mi_H",           # Hits in the minor leagues
-    "Mi_HR",          # Home runs in the minor leagues
-    "Mi_RBI",         # Runs batted in during the minor leagues
-    "Mi_OBP",         # On-base percentage
-    "Mi_SLG",         # Slugging percentage
-    "Mi_OPS",         # On-base plus slugging percentage
-    "Mi_Age",         # Age during minor league performance
-    "Height (inches)", # Player height
-    "Weight (lbs)",    # Player weight
-    "Primary Position", # Player's primary position
-    "Mi_League",        # Minor league affiliation
-    "Batting Hand",     # Player's batting hand
-    "Throwing Hand"     # Player's throwing hand
-]
+# Initialize encoders and scaler
+label_encoder = LabelEncoder()
+scaler = StandardScaler()
 
-# Select the features
-features = df[feature_columns]
+# Handle categorical columns
+categorical_cols = ['Primary Position', 'Batting Hand', 'Throwing Hand', 'Draft Team']
 
-# Define categorical and numerical columns
-categorical_columns = ["Primary Position", "Mi_League", "Batting Hand", "Throwing Hand"]
-numerical_columns = [
-    "Mi_G", "Mi_PA", "Mi_AB", "Mi_H", "Mi_HR", "Mi_RBI", 
-    "Mi_OBP", "Mi_SLG", "Mi_OPS", "Mi_Age", "Height (inches)", "Weight (lbs)"
-]
+# Initialize a dictionary to store label mappings
+label_mappings = {}
 
-# One-hot encode categorical columns
-features_encoded = pd.get_dummies(features, columns=categorical_columns, drop_first=True)
+for col in categorical_cols:
+    if df[col].dtype == 'object':  # Encode only if column contains strings
+        df[col] = label_encoder.fit_transform(df[col])
+        # Save the label mapping for the current column
+        label_mappings[col] = dict(zip(label_encoder.classes_, range(len(label_encoder.classes_))))
+
+# Save the label mappings to a CSV file
+label_mappings_df = pd.DataFrame(dict([(k, pd.Series(v)) for k,v in label_mappings.items()]))
+label_mappings_df.to_csv('data/output/label_mappings.csv', index=False)
+
+# Remove the 'Draft Round' column
+df.drop(['Draft Round'], axis=1, inplace=True)
+
+# Replace problematic ERA values and convert to numeric
+df['ERA'] = df['ERA'].replace({'-.--': '0', '--': '0'})
+df['ERA'] = pd.to_numeric(df['ERA'], errors='coerce')
+
+# Replace problematic WHIP values and convert to numeric
+df['WHIP'] = df['WHIP'].replace({'-.--': '0', '--': '0'})
+df['WHIP'] = pd.to_numeric(df['WHIP'], errors='coerce')
+
+# Handle missing values in Career_H
+df['Career_H'] = df['Career_H'].fillna(0)
 
 # Scale numerical columns
-scaler = StandardScaler()
-features_encoded[numerical_columns] = scaler.fit_transform(features_encoded[numerical_columns])
+numerical_cols = ['Height (inches)', 'Weight (lbs)', 'Pick Overall', 'G', 'AB', 'H', 'AVG', 'WHIP', 'ERA']
+df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
 
-# Save the fully preprocessed dataset to a CSV file
-output_file = "data/datasets/features_encoded_scaled.csv"
-features_encoded.to_csv(output_file, index=False)
+# Drop irrelevant columns
+df.drop(['Player Name', 'Player ID'], axis=1, inplace=True)
 
-print(f"One-hot encoded and scaled features dataset created and saved as '{output_file}'.")
+#Change Height and Weigth Columns names
+df.rename(columns={'Height (inches)': 'Height', 'Weight (lbs)': 'Weight'}, inplace=True)
 
-# Preview the dataset
-print(features_encoded.head())
+# Change the Column Names to NOT have spaces
+df.columns = df.columns.str.replace(' ', '_')
+
+# save the datasets
+df.to_csv('data/output/updated_players_scaled.csv', index=False)
+
+# Split data into features and target
+X = df.drop('MLB_Debut', axis=1)  # Features
+y = df['MLB_Debut']  # Target
+
+# Handle missing values in X
+X.fillna(X.median(), inplace=True)
+
+# Train/test split
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# Train the logistic regression model
+model = LogisticRegression(solver='saga',max_iter=5000, penalty='l2', C=1.0)
+model.fit(X_train, y_train)
+
+# Evaluate the model
+y_pred = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
