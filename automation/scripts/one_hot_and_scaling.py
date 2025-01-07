@@ -72,7 +72,7 @@ df[numerical_cols] = scaler.fit_transform(df[numerical_cols])
 df.drop(['Player Name', 'Player ID'], axis=1, inplace=True)
 
 #Change Height and Weigth Columns names
-df.rename(columns={'Height (inches)': 'Height', 'Weight (lbs)': 'Weight'}, inplace=True)
+df.rename(columns={'Height (inches)': 'Height', 'Weight (lbs)': 'Weight', 'Career_OPS+': 'Career_OPS_Plus'}, inplace=True)
 
 # Change the Column Names to NOT have spaces
 df.columns = df.columns.str.replace(' ', '_')
