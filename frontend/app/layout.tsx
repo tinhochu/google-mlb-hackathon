@@ -1,6 +1,7 @@
 import ClientLayout from '@/components/client-layout'
 import Header from '@/components/header'
 import { Toaster } from '@/components/ui/toaster'
+import config from '@/config'
 import { getAuthenticatedAppForUser } from '@/lib/firebase/serverApp'
 import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
@@ -18,8 +19,8 @@ const workSans = Work_Sans({
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
-  title: 'MLB™ P3: Prospect Potential Predictor',
-  description: 'MLB™ P3: Prospect Potential Predictor',
+  title: config.appName,
+  description: config.appName,
 }
 
 export default async function RootLayout({
