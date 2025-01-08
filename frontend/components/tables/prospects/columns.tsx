@@ -40,6 +40,20 @@ export type Prospect = {
       description: string
     }
   }
+  school?: {
+    name: string
+    schoolClass: string
+    city: string
+    state: string
+    country: string
+  }
+  team: {
+    id: number
+    name: string
+    abbreviation: string
+    teamName: string
+    locationName: string
+  }
   rank: number
 }
 
@@ -80,6 +94,13 @@ export const columns: ColumnDef<Prospect>[] = [
           </TooltipContent>
         </Tooltip>
       )
+    },
+  },
+  {
+    accessorKey: 'school',
+    header: 'School',
+    cell: ({ row }) => {
+      return <div className="font-medium">{row.original?.school?.name || '-'}</div>
     },
   },
   {
