@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/toaster'
 import config from '@/config'
 import { getAuthenticatedAppForUser } from '@/lib/firebase/serverApp'
 import { cn } from '@/lib/utils'
+import { Analytics } from '@vercel/analytics/react'
 import type { Metadata } from 'next'
 import { Work_Sans } from 'next/font/google'
 
@@ -38,6 +39,7 @@ export default async function RootLayout({
           <main className="mx-auto max-w-screen-xl min-h-lvh">{children}</main>
           <Toaster />
         </ClientLayout>
+        <Analytics />
       </body>
     </html>
   )

@@ -19,7 +19,7 @@ export default function HackathonAlert() {
       )}
     >
       {isVisible && (
-        <Alert className={cn('relative bg-primary-foreground')}>
+        <Alert className={cn('relative bg-primary-foreground mb-4')}>
           <AlertTitle>Hackathon Challenge Announcement 🚀</AlertTitle>
           <AlertDescription>
             <p>
