@@ -11,8 +11,8 @@ function useUserSession(initialUser: any) {
   const [isUserFetched, setIsUserFetched] = useState(false)
   const router = useRouter()
 
-  // Register the service worker that sends auth state back to server
-  // The service worker is built with npm run build-service-worker
+  // * Register the service worker that sends auth state back to server
+  // * The service worker is built with npm run build-service-worker
   // useEffect(() => {
   //   if ('serviceWorker' in navigator) {
   //     const serializedFirebaseConfig = encodeURIComponent(JSON.stringify(firebaseConfig))
