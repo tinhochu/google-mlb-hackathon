@@ -2,57 +2,14 @@
 
 import Spinner from '@/components/spinner'
 import { Button } from '@/components/ui/button'
-import firebaseConfig from '@/firebaseConfig'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useUserSession } from '@/hooks/use-user-session'
 import { signInWithGoogle, signOut } from '@/lib/firebase/auth'
-import { onAuthStateChanged } from '@/lib/firebase/auth'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-
-function useUserSession(initialUser: any) {
-  // The initialUser comes from the server via a server component
-  const [user, setUser] = useState(initialUser)
-  const router = useRouter()
-
-  // Register the service worker that sends auth state back to server
-  // The service worker is built with npm run build-service-worker
-  // useEffect(() => {
-  //   if ('serviceWorker' in navigator) {
-  //     const serializedFirebaseConfig = encodeURIComponent(JSON.stringify(firebaseConfig))
-  //     const serviceWorkerUrl = `/auth-service-worker.js?firebaseConfig=${serializedFirebaseConfig}`
-
-  //     navigator.serviceWorker
-  //       .register(serviceWorkerUrl)
-  //       .then((registration) => console.log('scope is: ', registration.scope))
-  //   }
-  // }, [])
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged((authUser) => {
-      setUser(authUser)
-    })
-
-    return () => unsubscribe()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    onAuthStateChanged((authUser) => {
-      if (user === undefined) return
-
-      // refresh when user changed to ease testing
-      if (user?.email !== authUser?.email) {
-        router.refresh()
-      }
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [user])
-
-  return user
-}
+import { useState } from 'react'
 
 export default function Header({ initialUser }: any) {
-  const user = useUserSession(initialUser)
+  const { user, isUserFetched } = useUserSession(initialUser)
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSignOut = (event: any) => {
@@ -84,17 +41,25 @@ export default function Header({ initialUser }: any) {
             <span className="text-white text-xs font-medium">Prospect Potential Predictor</span>
           </a>
           <div className="flex items-center lg:order-2">
-            {user ? (
+            {!isUserFetched ? (
               <div className="flex items-center gap-2">
-                <Link href="/dashboard">
-                  <Button variant="link">Dashboard</Button>
-                </Link>
-                <Button onClick={handleSignOut}>{'Sign out'}</Button>
+                <Skeleton className="w-[100px] h-[36px] rounded bg-primary" />
               </div>
             ) : (
-              <Button className="text-white font-medium" onClick={handleSignIn} disabled={isLoading}>
-                {isLoading ? <Spinner /> : 'Sign in'}
-              </Button>
+              <>
+                {user ? (
+                  <div className="flex items-center gap-2">
+                    <Link href="/dashboard">
+                      <Button variant="link">Dashboard</Button>
+                    </Link>
+                    <Button onClick={handleSignOut}>{'Sign out'}</Button>
+                  </div>
+                ) : (
+                  <Button className="text-white font-medium" onClick={handleSignIn} disabled={isLoading}>
+                    {isLoading ? <Spinner /> : 'Sign in'}
+                  </Button>
+                )}
+              </>
             )}
           </div>
         </div>
