@@ -50,7 +50,9 @@ export default function Header({ initialUser }: any) {
                 {user ? (
                   <div className="flex items-center gap-2">
                     <Link href="/dashboard">
-                      <Button variant="link">Dashboard</Button>
+                      <Button variant="link" className="text-white">
+                        Dashboard
+                      </Button>
                     </Link>
                     <Button onClick={handleSignOut}>{'Sign out'}</Button>
                   </div>
