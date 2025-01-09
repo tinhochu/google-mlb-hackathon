@@ -3,9 +3,12 @@ import { Prospect, columns } from '@/components/tables/prospects/columns'
 import { DataTable } from '@/components/tables/prospects/data-table'
 
 async function getProspects(): Promise<{ prospects: Prospect[] }> {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/mlb/prospects?year=2024`, {
-    cache: 'force-cache',
-  })
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/mlb/prospects?year=2024&limit=50&sortBy=rank&order=DESC`,
+    {
+      cache: 'force-cache',
+    }
+  )
   const { data } = await response.json()
   return data
 }

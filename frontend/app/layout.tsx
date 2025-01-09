@@ -1,5 +1,6 @@
 import ClientLayout from '@/components/client-layout'
 import Header from '@/components/header'
+import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
 import config from '@/config'
 import { getAuthenticatedAppForUser } from '@/lib/firebase/serverApp'
@@ -32,14 +33,16 @@ export default async function RootLayout({
   const { currentUser } = await getAuthenticatedAppForUser()
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={cn(workSans.variable, workSans.className, 'antialiased')}>
-        <ClientLayout>
-          <Header initialUser={currentUser?.toJSON()} />
-          <main className="mx-auto max-w-screen-xl min-h-lvh">{children}</main>
-          <Toaster />
-        </ClientLayout>
-        <Analytics />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          <ClientLayout>
+            <Header initialUser={currentUser?.toJSON()} />
+            <main className="mx-auto max-w-screen-xl min-h-lvh">{children}</main>
+            <Toaster />
+          </ClientLayout>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

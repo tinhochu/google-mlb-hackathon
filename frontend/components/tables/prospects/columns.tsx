@@ -1,8 +1,11 @@
 'use client'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { ColumnDef } from '@tanstack/react-table'
+import { ArrowUpDown } from 'lucide-react'
 
 export type Prospect = {
   id: string
@@ -59,15 +62,49 @@ export type Prospect = {
 
 export const columns: ColumnDef<Prospect>[] = [
   {
+    id: 'select',
+    header: ({ table }) => (
+      <Checkbox
+        checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: 'rank',
-    header: 'Rank',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Rank
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
-      return <div className="font-bold">{row.original.rank}</div>
+      return <div className="text-center text-lg font-bold">{row.original.rank}</div>
     },
   },
   {
+    id: 'player',
     accessorKey: 'person.fullName',
-    header: 'Player',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Player
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-start gap-2">
@@ -81,8 +118,16 @@ export const columns: ColumnDef<Prospect>[] = [
     },
   },
   {
-    accessorKey: 'position',
-    header: 'Position',
+    id: 'position',
+    accessorKey: 'person.primaryPosition.abbreviation',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Position
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       return (
         <Tooltip>
@@ -97,20 +142,37 @@ export const columns: ColumnDef<Prospect>[] = [
     },
   },
   {
-    accessorKey: 'school',
-    header: 'School',
+    id: 'school',
+    accessorKey: 'school.name',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          School
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       return <div className="font-medium">{row.original?.school?.name || '-'}</div>
     },
   },
   {
-    accessorKey: 'person.age',
-    header: 'Age',
+    id: 'age',
+    accessorKey: 'person.currentAge',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Age
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       return <div className="font-medium">{row.original.person.currentAge}</div>
     },
   },
   {
+    id: 'Height / Weight',
     accessorKey: 'heightWeight',
     header: 'Height / Weight',
     cell: ({ row }) => {
@@ -122,8 +184,16 @@ export const columns: ColumnDef<Prospect>[] = [
     },
   },
   {
-    accessorKey: 'person.batSide',
-    header: 'Bats',
+    id: 'bats',
+    accessorKey: 'person.batSide.code',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Bats
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       return (
         <Tooltip>
@@ -138,8 +208,16 @@ export const columns: ColumnDef<Prospect>[] = [
     },
   },
   {
-    accessorKey: 'person.pitchHand',
-    header: 'Throws',
+    id: 'throws',
+    accessorKey: 'person.pitchHand.code',
+    header: ({ column }) => {
+      return (
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Throws
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       return (
         <Tooltip>

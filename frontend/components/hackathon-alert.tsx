@@ -20,24 +20,33 @@ export default function HackathonAlert() {
     >
       {isVisible && (
         <Alert className={cn('relative bg-primary-foreground mb-4')}>
-          <AlertTitle>Hackathon Challenge Announcement 🚀</AlertTitle>
+          <AlertTitle className="text-xl font-bold">Hackathon Challenge Announcement 🚀</AlertTitle>
           <AlertDescription>
             <p>
-              I'm participating in the MLB Hackathon, <strong>tackling Challenge #5</strong>, titled{' '}
-              <strong>{config.appName}</strong>. My goal is to make baseball more exciting for fans by creating a tool
-              that helps them follow young talented players and predict their future potential. My tool will display
-              player stats, historical data, and live updates — information typically reserved for baseball experts. I'm
-              making baseball viewing more interactive by letting fans make data-driven predictions about players, share
-              their insights with other fans, and compare their picks with experts. This creates a deeper connection to
-              the sport. The tool will enhance key moments like draft days and league promotions, allowing fans to track
-              their favorite prospects' journeys. This transforms casual viewers into passionate fans invested in their
-              team's future. Through this combination of sports, technology, and social features, I'm working to
-              interactive by letting fans make data-driven predictions about players, share their insights with other
-              fans, and compare their picks with experts. This creates a deeper connection to the sport. The tool will
-              enhance key moments like draft days and league promotions, allowing fans to track their favorite
-              prospects' journeys. This transforms casual viewers into passionate fans invested in their team's future.
-              Through this combination of sports, technology, and social features, I'm working to make baseball more
-              engaging and accessible for everyone. Stay tuned as we innovate and bring our ideas to life!
+              I&apos;m participating in the MLB Hackathon, <strong>tackling Challenge #5</strong>, titled{' '}
+              <a
+                href="https://devpost.com/software/mlb-tm-p3-prospects-potential-predictor"
+                target="_blank"
+                className="underline hover:text-primary"
+              >
+                <strong>{config.appName}</strong>
+              </a>
+              . My goal is to make baseball more exciting for fans by creating a tool that helps them follow young
+              talented players and predict their future potential. My tool will display player stats, historical data,
+              and live updates — information typically reserved for baseball experts. I&apos;m making baseball viewing
+              more player stats, historical data, and live updates — information typically reserved for baseball
+              experts. I&apos;m making baseball viewing more interactive by letting fans make data-driven predictions
+              about players, share their insights with other fans, and compare their picks with experts. This creates a
+              deeper connection to the sport. The tool will enhance key moments like draft days and league promotions,
+              allowing fans to track their favorite prospects&apos; journeys. This transforms casual viewers into
+              passionate fans invested in their team&apos;s future. Through this combination of sports, technology, and
+              social features, I&apos;m working to interactive by letting fans make data-driven predictions about
+              players, share their insights with other fans, and compare their picks with experts. This creates a deeper
+              connection to the sport. The tool will enhance key moments like draft days and league promotions, allowing
+              fans to track their favorite prospects&apos; journeys. This transforms casual viewers into passionate fans
+              invested in their team&apos;s future. Through this combination of sports, technology, and social features,
+              I&apos;m working to make baseball more engaging and accessible for everyone. Stay tuned as we innovate and
+              bring our ideas to life!
             </p>
             <p>Stay tuned as we innovate and bring our ideas to life!</p>
           </AlertDescription>
