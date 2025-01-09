@@ -14,7 +14,11 @@ async function getProspects(): Promise<{ prospects: Prospect[] }> {
 }
 
 export default async function HomePage() {
-  const data = await getProspects()
+  // const data = await getProspects()
+  const data = {
+    prospects: [],
+  }
+
   return (
     <div className="pt-8">
       <HackathonAlert />
