@@ -38,14 +38,12 @@ function ProspectsCarousel({ data }: { data: Prospect[] }) {
       <CarouselContent className="carousel-content flex flex-row">
         {data.map((prospect: Prospect) => (
           <CarouselItem key={prospect.id} className="basis-auto p-0">
-            <Link href={`/prospects/${prospect.person.id}`}>
+            <Link href={`/prospects/${prospect.person.id}`} key={prospect.person.id}>
               <Image src={prospect.headshotLink} alt={prospect.person.fullName} width={60} height={60} />
             </Link>
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
     </Carousel>
   )
 }

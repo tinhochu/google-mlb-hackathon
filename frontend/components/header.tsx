@@ -1,38 +1,13 @@
 'use client'
 
+import Logo from '@/components/logo'
 import { ModeToggle } from '@/components/mode-toggle'
-import Spinner from '@/components/spinner'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useUserSession } from '@/hooks/use-user-session'
-import { signInWithGoogle, signOut } from '@/lib/firebase/auth'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useState } from 'react'
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { Suspense } from 'react'
 
-import Logo from './logo'
-
-export default function Header({ initialUser }: any) {
-  const { user, isUserFetched } = useUserSession(initialUser)
-  const [isLoading, setIsLoading] = useState(false)
-
-  const handleSignOut = (event: any) => {
-    event.preventDefault()
-    signOut()
-  }
-
-  const handleSignIn = async (event: any) => {
-    try {
-      event.preventDefault()
-      setIsLoading(true)
-      await signInWithGoogle()
-      setIsLoading(false)
-    } catch (error) {
-      console.error('Sign in failed:', error)
-      setIsLoading(false)
-    }
-  }
-
+export default function Header() {
   return (
     <header>
       <nav className="bg-mlb-primary border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
@@ -40,26 +15,16 @@ export default function Header({ initialUser }: any) {
           <Logo />
           <div className="flex items-center lg:order-2">
             <div className="flex items-center gap-2">
-              {!isUserFetched ? (
-                <Skeleton className="w-[100px] h-[36px] rounded bg-primary" />
-              ) : (
-                <>
-                  {user ? (
-                    <div className="flex items-center gap-2">
-                      <Link href="/dashboard">
-                        <Button variant="link" className="text-white">
-                          Dashboard
-                        </Button>
-                      </Link>
-                      <Button onClick={handleSignOut}>{'Sign out'}</Button>
-                    </div>
-                  ) : (
-                    <Button className="text-white font-medium" onClick={handleSignIn} disabled={isLoading}>
-                      {isLoading ? <Spinner /> : 'Sign in'}
-                    </Button>
-                  )}
-                </>
-              )}
+              <Suspense fallback={<Skeleton className="w-[100px] h-[36px] rounded bg-primary-foreground" />}>
+                <SignedOut>
+                  <SignInButton>
+                    <Button>Sign in</Button>
+                  </SignInButton>
+                </SignedOut>
+                <SignedIn>
+                  <UserButton />
+                </SignedIn>
+              </Suspense>
               <ModeToggle />
             </div>
           </div>

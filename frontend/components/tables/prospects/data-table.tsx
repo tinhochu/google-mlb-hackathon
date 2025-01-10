@@ -79,37 +79,78 @@ export function DataTable<TData, TValue>({ columns, initialData, initialYear }: 
     [year]
   )
 
+  useEffect(function initialFetch() {
+    const fetchProspects = async () => {
+      setFetching(true)
+      const response = await apiClient.get(`/mlb/prospects?year=${year}`)
+      setTimeout(() => {
+        setYear(response?.data?.year || '2024')
+        setData(response?.data?.prospects || [])
+        setFetching(false)
+      }, 500)
+    }
+    fetchProspects()
+  }, [])
+
   return (
     <div>
       <h2 className="text-2xl font-bold mb-4">Prospects {year}</h2>
-      <div className="flex items-center pb-4 gap-4">
-        <Input
-          placeholder="Filter Players..."
-          value={(table.getColumn('player')?.getFilterValue() as string) ?? ''}
-          onChange={(event) => table.getColumn('player')?.setFilterValue(event.target.value)}
-          className="max-w-sm"
-        />
+      <div className="flex items-center justify-between pb-4 gap-4">
+        <div className="flex items-center gap-2">
+          <Input
+            placeholder="Filter Players..."
+            value={(table.getColumn('player')?.getFilterValue() as string) ?? ''}
+            onChange={(event) => table.getColumn('player')?.setFilterValue(event.target.value)}
+            className="max-w-md"
+          />
+          <Select
+            onValueChange={(value) => {
+              setYear(value)
+            }}
+            value={year}
+          >
+            <SelectTrigger className="w-[130px]">
+              <SelectValue placeholder="Select Year" />
+            </SelectTrigger>
+            <SelectContent>
+              {Array.from({ length: 10 }, (_, i) => i + 2015)
+                .reverse()
+                .map((item) => (
+                  <SelectItem key={item} value={item.toString()}>
+                    {item}
+                  </SelectItem>
+                ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-        <Select
-          onValueChange={(value) => {
-            setYear(value)
-          }}
-        >
-          <SelectTrigger className="w-[130px]">
-            <SelectValue placeholder="Select Year" />
-          </SelectTrigger>
-          <SelectContent>
-            {Array.from({ length: 10 }, (_, i) => i + 2015)
-              .reverse()
-              .map((item) => (
-                <SelectItem key={item} value={item.toString()}>
-                  {item}
+        <div className="flex items-center gap-2">
+          <Button variant="outline" onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()}>
+            Previous
+          </Button>
+          <Button variant="outline" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+            Next
+          </Button>
+          <Select
+            value={table.getState().pagination.pageSize.toString()}
+            onValueChange={(value) => {
+              table.setPageSize(Number(value))
+            }}
+          >
+            <SelectTrigger className="">
+              <SelectValue placeholder="Page Size" />
+            </SelectTrigger>
+            <SelectContent>
+              {PAGINATION_SIZE.items.map((item) => (
+                <SelectItem key={item.value} value={item.value.toString()}>
+                  {item.label}
                 </SelectItem>
               ))}
-          </SelectContent>
-        </Select>
+            </SelectContent>
+          </Select>
+        </div>
 
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
               Columns
@@ -132,7 +173,7 @@ export function DataTable<TData, TValue>({ columns, initialData, initialYear }: 
                 )
               })}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
       <Card className="overflow-hidden relative">
         <Table className="" ref={parent}>

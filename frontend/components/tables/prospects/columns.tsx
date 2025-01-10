@@ -7,6 +7,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { Prospect } from '@/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
+import Link from 'next/link'
 
 export const columns: ColumnDef<Prospect>[] = [
   {
@@ -59,13 +60,13 @@ export const columns: ColumnDef<Prospect>[] = [
     },
     cell: ({ row }) => {
       return (
-        <div className="flex items-center justify-start gap-2">
+        <Link href={`/prospects/${row.original.person.id}`} className="flex items-center justify-start gap-2">
           <Avatar className="border border-primary border-2">
             <AvatarImage src={row.original.headshotLink} />
             <AvatarFallback>{row.original.person.fullName.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="font-medium">{row.original.person.fullName}</div>
-        </div>
+        </Link>
       )
     },
   },

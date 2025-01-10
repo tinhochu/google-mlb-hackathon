@@ -50,6 +50,7 @@ export async function GET(request: NextRequest) {
         returnedSize: mlbData.returnedSize,
         queriedSize: mlbData.queriedSize,
         offset: mlbData.offset,
+        year,
       },
     })
   } catch (error) {
