@@ -1,6 +1,8 @@
 import HackathonAlert from '@/components/hackathon-alert'
-import { Prospect, columns } from '@/components/tables/prospects/columns'
+import { ProspectsCarousel } from '@/components/prospects-carousel'
+import { columns } from '@/components/tables/prospects/columns'
 import { DataTable } from '@/components/tables/prospects/data-table'
+import { Prospect } from '@/types'
 
 async function getProspects(): Promise<{ prospects: Prospect[] }> {
   const response = await fetch(
@@ -17,10 +19,12 @@ export default async function HomePage() {
   const data = await getProspects()
 
   return (
-    <div className="pt-8">
-      <HackathonAlert />
-      <h1 className="text-2xl font-bold mb-4">Prospects</h1>
-      <DataTable columns={columns} data={data?.prospects || []} />
+    <div className="">
+      <ProspectsCarousel data={data?.prospects || []} />
+      <div className="mx-auto max-w-screen-xl min-h-lvh mt-4">
+        <HackathonAlert />
+        <DataTable columns={columns} initialData={data?.prospects || []} initialYear={'2024'} />
+      </div>
     </div>
   )
 }

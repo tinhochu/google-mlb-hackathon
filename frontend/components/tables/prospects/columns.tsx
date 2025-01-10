@@ -4,61 +4,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Prospect } from '@/types'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown } from 'lucide-react'
-
-export type Prospect = {
-  id: string
-  pickRound: string
-  pickNumber: number
-  headshotLink: string
-  birthDate: string
-  lastPlayedDate: string
-  mlbDebutDate: string
-  scoutingReport: string
-  person: {
-    id: number
-    firstName: string
-    lastName: string
-    fullName: string
-    currentAge: number
-    height: string
-    weight: number
-    birthCity: string
-    birthStateProvince: string
-    birthCountry: string
-    active: boolean
-    primaryPosition: {
-      code: string
-      name: string
-      type: string
-      abbreviation: string
-    }
-    batSide?: {
-      code: string
-      description: string
-    }
-    pitchHand?: {
-      code: string
-      description: string
-    }
-  }
-  school?: {
-    name: string
-    schoolClass: string
-    city: string
-    state: string
-    country: string
-  }
-  team: {
-    id: number
-    name: string
-    abbreviation: string
-    teamName: string
-    locationName: string
-  }
-  rank: number
-}
 
 export const columns: ColumnDef<Prospect>[] = [
   {
@@ -84,14 +32,18 @@ export const columns: ColumnDef<Prospect>[] = [
     accessorKey: 'rank',
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="pl-0 pr-0"
+        >
           Rank
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
     cell: ({ row }) => {
-      return <div className="text-center text-lg font-bold">{row.original.rank}</div>
+      return <div className="text-lg font-bold">{row.original.rank}</div>
     },
   },
   {
@@ -99,7 +51,7 @@ export const columns: ColumnDef<Prospect>[] = [
     accessorKey: 'person.fullName',
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="pl-0">
           Player
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -122,7 +74,7 @@ export const columns: ColumnDef<Prospect>[] = [
     accessorKey: 'person.primaryPosition.abbreviation',
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="pl-0">
           Position
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -146,7 +98,7 @@ export const columns: ColumnDef<Prospect>[] = [
     accessorKey: 'school.name',
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="pl-0">
           School
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -161,8 +113,8 @@ export const columns: ColumnDef<Prospect>[] = [
     accessorKey: 'person.currentAge',
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
-          Age
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="pl-0">
+          Current Age
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -188,7 +140,7 @@ export const columns: ColumnDef<Prospect>[] = [
     accessorKey: 'person.batSide.code',
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="pl-0">
           Bats
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
@@ -212,7 +164,7 @@ export const columns: ColumnDef<Prospect>[] = [
     accessorKey: 'person.pitchHand.code',
     header: ({ column }) => {
       return (
-        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+        <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')} className="pl-0">
           Throws
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>

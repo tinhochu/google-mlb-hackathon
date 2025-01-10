@@ -34,11 +34,11 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(workSans.variable, workSans.className, 'antialiased')}>
+      <body className={cn(workSans.variable, workSans.className, 'antialiased bg-primary-foreground')}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <ClientLayout>
             <Header initialUser={currentUser?.toJSON()} />
-            <main className="mx-auto max-w-screen-xl min-h-lvh">{children}</main>
+            <main>{children}</main>
             <Toaster />
           </ClientLayout>
           <Analytics />

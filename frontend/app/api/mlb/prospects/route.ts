@@ -28,11 +28,19 @@ export async function GET(request: NextRequest) {
       offset = '0'
     }
 
+    // Construct the base URL
+    let url = `https://statsapi.mlb.com/api/v1/draft/prospects/${year}?sortBy=rank&order=DESC`
+
+    // Add limit and offset only if they are provided
+    if (limit) {
+      url += `&limit=${limit}`
+    }
+    if (offset) {
+      url += `&offset=${offset}`
+    }
+
     // Get prospects for the given year
-    const mlbResponse = await fetch(
-      `https://statsapi.mlb.com/api/v1/draft/prospects/${year}?limit=${limit}&offset=${offset}&sortBy=rank&order=DESC`,
-      { cache: 'force-cache' }
-    )
+    const mlbResponse = await fetch(url, { cache: 'force-cache' })
     const mlbData = await mlbResponse.json()
 
     return NextResponse.json({
