@@ -1,3 +1,3 @@
 export default {
-  appName: 'MLB™ P3: Prospect Potential Predictor',
+  appName: 'MLB™ 3P: Prospect Potential Predictor',
 }

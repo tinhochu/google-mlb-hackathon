@@ -10,6 +10,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
 
+import Logo from './logo'
+
 export default function Header({ initialUser }: any) {
   const { user, isUserFetched } = useUserSession(initialUser)
   const [isLoading, setIsLoading] = useState(false)
@@ -35,19 +37,7 @@ export default function Header({ initialUser }: any) {
     <header>
       <nav className="bg-mlb-primary border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <Link href="/" className="flex flex-col">
-            <div className="flex items-center">
-              <Image
-                src="/mlb-logo.svg"
-                className="mr-3 h-6 sm:h-9"
-                alt="MLB™ P3: Prospect Potential Predictor"
-                width={65}
-                height={36}
-              />
-              <span className="self-center text-4xl text-white font-semibold whitespace-nowrap">P3</span>
-            </div>
-            <span className="text-white text-xs font-medium">Prospect Potential Predictor</span>
-          </Link>
+          <Logo />
           <div className="flex items-center lg:order-2">
             <div className="flex items-center gap-2">
               {!isUserFetched ? (
