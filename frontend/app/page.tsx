@@ -20,7 +20,6 @@ export default async function HomePage() {
 
   return (
     <div className="">
-      <ProspectsCarousel data={data?.prospects || []} />
       <div className="mx-auto max-w-screen-xl min-h-lvh mt-4">
         <HackathonAlert />
         <DataTable columns={columns} initialData={data?.prospects || []} initialYear={'2024'} />

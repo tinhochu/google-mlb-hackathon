@@ -75,6 +75,25 @@
             "entrypoint": "src/main.js",
             "commands": "npm install",
             "path": "functions/SearchPlayers"
+        },
+        {
+            "$id": "67815d64002830bab694",
+            "execute": [
+                "any"
+            ],
+            "name": "ScrapePlayer",
+            "enabled": true,
+            "logging": true,
+            "runtime": "python-3.12",
+            "scopes": [
+                "users.read"
+            ],
+            "events": [],
+            "schedule": "",
+            "timeout": 15,
+            "entrypoint": "src/main.py",
+            "commands": "pip install -r requirements.txt",
+            "path": "functions/ScrapePlayer"
         }
     ]
 }
