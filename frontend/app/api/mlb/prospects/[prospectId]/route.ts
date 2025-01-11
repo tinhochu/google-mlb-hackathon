@@ -5,9 +5,9 @@ export async function GET(
   { params, searchParams }: { params: { prospectId: string }; searchParams: { teamId: string; year: string } }
 ) {
   try {
-    // Get the prospectId from the params
     const { prospectId } = await params
     const { searchParams } = new URL(req.url)
+
     const teamId = searchParams.get('teamId')
     const year = searchParams.get('year')
 

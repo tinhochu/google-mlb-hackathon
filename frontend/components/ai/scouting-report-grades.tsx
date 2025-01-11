@@ -1,12 +1,10 @@
+import { Counter } from '@/components/counter'
 import GPTTypingEffect from '@/components/gpt-typing-effect'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 import * as Sentry from '@sentry/nextjs'
 import Image from 'next/image'
-import CountUp from 'react-countup'
-
-import { Counter } from '../counter'
 
 const GRADES = ['HIT', 'POWER', 'RUN', 'FIELD', 'ARM']
 
@@ -17,10 +15,12 @@ function ScoutingReportGradesSkeleton() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Image src="/gemini.svg" alt="Gemini" width={20} height={20} className="animate-spin" />
-            Generating Scouting Report Grades
+            <p className="text-xl font-bold">Gemini Synopsis</p>
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
+          <Skeleton className="h-4 w-full" />
+          <Skeleton className="h-4 w-3/4" />
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-3/4" />
         </CardContent>
@@ -32,7 +32,10 @@ function ScoutingReportGradesSkeleton() {
               <CardTitle className="text-center uppercase">{grade}</CardTitle>
             </CardHeader>
             <CardContent className="flex items-center justify-center">
-              <Skeleton className="h-11 w-11" />
+              <div className="flex items-center justify-center">
+                <Skeleton className="h-11 w-11" />
+                <sup className="text-sm font-bold -top-[0.9rem]">/80</sup>
+              </div>
             </CardContent>
           </Card>
         ))}
@@ -74,6 +77,7 @@ async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats:
 
     for the pitchers, create a another key in the JSON object called "pitchingGrades" outside of the gradingScale key.
     Pitching-Specific Attributes: For pitchers create a  (Fastball, Curveball, Slider, Changeup, Control, Command).
+    Pitching-Specific Attributes only give me the grades.
 
     here is the data:
     height: ${prospect.person.height}
@@ -105,10 +109,10 @@ async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats:
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Image src="/gemini.svg" alt="Gemini" width={20} height={20} />
-              <GPTTypingEffect text="Gemini Synopsis" className="text-xl font-bold" />
+              <p className="text-xl font-bold">Gemini Synopsis</p>
             </CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="min-h-24">
             <GPTTypingEffect text={json?.synopsis ?? ''} />
           </CardContent>
         </Card>
@@ -120,10 +124,30 @@ async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats:
             <CardContent className="flex items-center justify-center">
               <p className="text-4xl font-bold">
                 <Counter end={(value !== null ? value : '20') as number} />
+                <sup className="text-sm -top-[0.9rem]">/80</sup>
               </p>
             </CardContent>
           </Card>
         ))}
+        {Object.entries(pitchingGrades).length > 0 && prospect.person.primaryPosition?.abbreviation === 'P' && (
+          <div className="col-span-5">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+              {Object.entries(pitchingGrades).map(([key, value]) => (
+                <Card key={key} className="col-span-1">
+                  <CardHeader>
+                    <CardTitle className="text-center uppercase font-bold">{key}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex items-center justify-center">
+                    <p className="text-4xl font-bold">
+                      <Counter end={(value !== null ? value : '20') as number} />
+                      <sup className="text-sm -top-[0.9rem]">/80</sup>
+                    </p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     )
   } catch (e: any) {

@@ -2,7 +2,6 @@ import { ScoutingReportGrades, ScoutingReportGradesSkeleton } from '@/components
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { getProspectById } from '@/lib/firebase/firestore'
 import { getAuthenticatedAppForUser } from '@/lib/firebase/serverApp'
 import { currentUser } from '@clerk/nextjs/server'
