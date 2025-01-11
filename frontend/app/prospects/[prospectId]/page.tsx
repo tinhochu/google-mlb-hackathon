@@ -37,7 +37,7 @@ export default async function ProspectPage({
       >
         <div className="absolute bottom-0 left-0 h-full w-full bg-gradient-to-b from-black/60 to-black/60"></div>
 
-        <div className="max-w-screen-xl mx-auto w-full z-10">
+        <div className="max-w-screen-xl mx-auto px-5 lg:px-0 w-full z-10">
           <div className="flex flex-col">
             <Link href={`/`} className="mb-4 inline-block">
               <Button variant="link" className="text-white pl-0">
@@ -47,7 +47,7 @@ export default async function ProspectPage({
 
             <div className="flex justify-between gap-4">
               <div className="flex gap-4 justify-between">
-                <div className="grow-0 w-[125px] aspect-square bg-white shadow border-4 relative">
+                <div className="grow-0 w-[150px] aspect-square bg-white shadow border-4 relative">
                   <Image
                     src={
                       data?.prospectImgHeadshot ??
@@ -57,13 +57,14 @@ export default async function ProspectPage({
                     fill
                   />
                 </div>
-                <div className="flex flex-col gap-2 mt-4">
+                <div className="flex flex-col gap-2">
                   <h1 className="text-3xl text-white font-bold">{data.prospect?.person?.fullName ?? ''}</h1>
                   <p className="text-2xl text-white font-bold">
-                    {data.prospect?.person?.primaryPosition?.abbreviation} <span className="font-normal">|</span> B/T:{' '}
-                    {data.prospect?.person?.batSide?.code} / {data.prospect?.person?.pitchHand?.code}{' '}
-                    <span className="font-normal">|</span> {data.prospect?.person?.height} /{' '}
-                    {data.prospect?.person?.weight}
+                    {data.prospect?.person?.primaryPosition?.abbreviation} <span className="font-normal">|</span> B
+                    <span className="font-normal">/</span>T: {data.prospect?.person?.batSide?.code}{' '}
+                    <span className="font-normal">/</span> {data.prospect?.person?.pitchHand?.code}{' '}
+                    <span className="font-normal">|</span> {data.prospect?.person?.height}{' '}
+                    <span className="font-normal">/</span> {data.prospect?.person?.weight} lbs
                   </p>
                   <div className="flex gap-2 items-center">
                     <Avatar className="border border-primary border-2 p-1 bg-white">
@@ -79,15 +80,15 @@ export default async function ProspectPage({
         </div>
       </div>
       <div className="max-w-screen-xl mx-auto w-full py-8">
-        <div className="grid grid-cols-12 gap-4">
-          <div className="col-span-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <div className="col-span-1 lg:col-span-8">
             <div className="flex flex-col gap-4">
               <Suspense fallback={<ScoutingReportGradesSkeleton />}>
                 <ScoutingReportGrades prospect={data.prospect} stats={data.prospectStats} />
               </Suspense>
             </div>
           </div>
-          <div className="col-span-4">
+          <div className="col-span-1 lg:col-span-4">
             <Card>
               <CardHeader>
                 <CardTitle>Drafted</CardTitle>

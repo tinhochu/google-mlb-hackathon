@@ -104,36 +104,40 @@ async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats:
     const pitchingGrades = json?.pitchingGrades ?? {}
 
     return (
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <Card className="col-span-2 lg:col-span-5">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Image src="/gemini.svg" alt="Gemini" width={20} height={20} />
-              <p className="text-xl font-bold">Gemini Synopsis</p>
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="min-h-24">
-            <GPTTypingEffect text={json?.synopsis ?? ''} />
-          </CardContent>
-        </Card>
-        {Object.entries(scoutingGrades).map(([key, value]) => (
-          <Card key={key} className="col-span-1">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 px-5 lg:px-0">
+        <div className="col-span-2 lg:col-span-5">
+          <Card>
             <CardHeader>
-              <CardTitle className="text-center uppercase font-bold">{key}</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Image src="/gemini.svg" alt="Gemini" width={20} height={20} />
+                <p className="text-xl font-bold">Gemini Synopsis</p>
+              </CardTitle>
             </CardHeader>
-            <CardContent className="flex items-center justify-center">
-              <p className="text-4xl font-bold">
-                <Counter end={(value !== null ? value : '20') as number} />
-                <sup className="text-sm -top-[0.9rem]">/80</sup>
-              </p>
+            <CardContent className="min-h-24">
+              <GPTTypingEffect text={json?.synopsis ?? ''} />
             </CardContent>
           </Card>
+        </div>
+        {Object.entries(scoutingGrades).map(([key, value]) => (
+          <div className="col-span-1">
+            <Card key={key}>
+              <CardHeader>
+                <CardTitle className="text-center uppercase font-bold">{key}</CardTitle>
+              </CardHeader>
+              <CardContent className="flex items-center justify-center">
+                <p className="text-4xl font-bold">
+                  <Counter end={(value !== null ? value : '20') as number} />
+                  <sup className="text-sm -top-[0.9rem]">/80</sup>
+                </p>
+              </CardContent>
+            </Card>
+          </div>
         ))}
         {Object.entries(pitchingGrades).length > 0 && prospect.person.primaryPosition?.abbreviation === 'P' && (
-          <div className="col-span-5">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              {Object.entries(pitchingGrades).map(([key, value]) => (
-                <Card key={key} className="col-span-1">
+          <>
+            {Object.entries(pitchingGrades).map(([key, value]) => (
+              <div className="col-span-1" key={key}>
+                <Card>
                   <CardHeader>
                     <CardTitle className="text-center uppercase font-bold">{key}</CardTitle>
                   </CardHeader>
@@ -144,9 +148,9 @@ async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats:
                     </p>
                   </CardContent>
                 </Card>
-              ))}
-            </div>
-          </div>
+              </div>
+            ))}
+          </>
         )}
       </div>
     )
