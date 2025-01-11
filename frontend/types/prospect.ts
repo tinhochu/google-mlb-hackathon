@@ -7,6 +7,7 @@ export type Prospect = {
   lastPlayedDate: string
   mlbDebutDate: string
   scoutingReport: string
+  year: string
   person: {
     id: number
     firstName: string

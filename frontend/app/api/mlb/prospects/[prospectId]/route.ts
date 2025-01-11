@@ -1,40 +1,41 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest, { params }: { params: { prospectId: string } }) {
+export async function GET(
+  req: NextRequest,
+  { params, searchParams }: { params: { prospectId: string }; searchParams: { teamId: string; year: string } }
+) {
   try {
     // Get the prospectId from the params
     const { prospectId } = await params
+    const { searchParams } = new URL(req.url)
+    const teamId = searchParams.get('teamId')
+    const year = searchParams.get('year')
 
     // Fetch both the prospect and their stats concurrently
-    const [prospectResponse, prospectStatsResponse, prospectImgHeadshotResponse, prospectImgBackgroundResponse] =
-      await Promise.all([
-        fetch(`https://statsapi.mlb.com/api/v1/people/${prospectId}`),
-        fetch(
-          `https://statsapi.mlb.com/api/v1/people/${prospectId}/stats?stats=yearByYear,career,yearByYearAdvanced,careerAdvanced&leagueListId=milb_all`
-        ),
-        fetch(
-          `https://img.mlbstatic.com/mlb-photos/image/upload/c_fill,g_auto/w_180/v1/people/${prospectId}/headshot/milb/current`
-        ),
-        fetch(
-          `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:action:hero:milb:current.jpg/w_2000,q_auto,f_auto/v1/people/${prospectId}/action/hero/milb/current`
-        ),
-      ])
+    const [prospectResponse, prospectStatsResponse, prospectImgBackgroundResponse, teamResponse] = await Promise.all([
+      fetch(`https://statsapi.mlb.com/api/v1/draft/${year}?playerId=${prospectId}`),
+      fetch(
+        `https://statsapi.mlb.com/api/v1/people/${prospectId}/stats?stats=yearByYear,career,yearByYearAdvanced,careerAdvanced&leagueListId=milb_all`
+      ),
+      fetch(
+        `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:action:hero:milb:current.jpg/w_2000,q_auto,f_auto/v1/people/${prospectId}/action/hero/milb/current`
+      ),
+      fetch(`https://statsapi.mlb.com/api/v1/teams/${teamId}`),
+    ])
 
     const prospect = await prospectResponse.json()
     const prospectStats = await prospectStatsResponse.json()
+    const { teams } = await teamResponse.json()
 
     // Return the prospect and their stats
     return NextResponse.json({
-      prospect: prospect.people[0],
+      prospect: prospect.drafts.rounds[0].picks[0],
       prospectStats: prospectStats.stats[0],
-      prospectImgHeadshot:
-        prospectImgHeadshotResponse.status !== 200
-          ? null
-          : `https://img.mlbstatic.com/mlb-photos/image/upload/c_fill,g_auto/w_180/v1/people/${prospectId}/headshot/milb/current`,
       prospectImgBackground:
         prospectImgBackgroundResponse.status !== 200
           ? null
           : `https://img.mlbstatic.com/mlb-photos/image/upload/d_people:generic:action:hero:milb:current.jpg/w_2000,q_auto,f_auto/v1/people/${prospectId}/action/hero/milb/current`,
+      team: teams[0],
     })
   } catch (error) {
     console.error(error)

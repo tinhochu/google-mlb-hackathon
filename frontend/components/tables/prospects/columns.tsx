@@ -60,7 +60,10 @@ export const columns: ColumnDef<Prospect>[] = [
     },
     cell: ({ row }) => {
       return (
-        <Link href={`/prospects/${row.original.person.id}`} className="flex items-center justify-start gap-2">
+        <Link
+          href={`/prospects/${row.original.person.id}?teamId=${row.original.team?.id ?? ''}&year=${row.original.year}`}
+          className="flex items-center justify-start gap-2"
+        >
           <Avatar className="border border-primary border-2">
             <AvatarImage src={row.original.headshotLink} />
             <AvatarFallback>{row.original.person.fullName.charAt(0)}</AvatarFallback>

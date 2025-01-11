@@ -1,0 +1,56 @@
+import mongoose from 'mongoose'
+
+import toJSON from './plugins/toJSON'
+
+const propspectSchema = new mongoose.Schema({
+  fullName: String,
+  link: String,
+  firstName: String,
+  lastName: String,
+  primaryNumber: String,
+  birthDate: String,
+  currentAge: Number,
+  birthCity: String,
+  birthCountry: String,
+  height: String,
+  weight: Number,
+  active: Boolean,
+  primaryPositionCode: String,
+  primaryPositionName: String,
+  primaryPositionType: String,
+  primaryPositionAbbreviation: String,
+  useName: String,
+  useLastName: String,
+  middleName: String,
+  boxscoreName: String,
+  nickName: String,
+  gender: String,
+  isPlayer: Boolean,
+  isVerified: Boolean,
+  lastPlayedDate: String,
+  mlbDebutDate: String,
+  batSideCode: String,
+  batSideDescription: String,
+  pitchHandCode: String,
+  pitchHandDescription: String,
+  nameFirstLast: String,
+  nameSlug: String,
+  firstLastName: String,
+  lastFirstName: String,
+  lastInitName: String,
+  initLastName: String,
+  fullFMLName: String,
+  fullLFMName: String,
+  strikeZoneTop: Number,
+  strikeZoneBottom: Number,
+  schoolName: String,
+  schoolClass: String,
+  schoolCity: String,
+  schoolCountry: String,
+  schoolState: String,
+  blurb: String,
+})
+
+propspectSchema.plugin(toJSON)
+
+export default mongoose.models.Prospect || mongoose.model('Prospect', propspectSchema)
