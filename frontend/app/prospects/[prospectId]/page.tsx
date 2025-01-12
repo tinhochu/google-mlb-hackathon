@@ -1,4 +1,5 @@
 import { ScoutingReportGrades, ScoutingReportGradesSkeleton } from '@/components/ai/scouting-report-grades'
+import { LatestGoogleNews, LatestGoogleNewsSkeleton } from '@/components/latest-google-news'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -86,15 +87,20 @@ export default async function ProspectPage({
               <Suspense fallback={<ScoutingReportGradesSkeleton />}>
                 <ScoutingReportGrades prospect={data.prospect} stats={data.prospectStats} />
               </Suspense>
+              <Suspense fallback={<LatestGoogleNewsSkeleton />}>
+                <LatestGoogleNews prospect={data.prospect} />
+              </Suspense>
             </div>
           </div>
           <div className="col-span-1 lg:col-span-4">
-            <Card>
-              <CardHeader>
-                <CardTitle>Drafted</CardTitle>
-              </CardHeader>
-              <CardContent>asd</CardContent>
-            </Card>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Card>
+                <CardHeader>
+                  <CardTitle>Gemini Prospect Predictions</CardTitle>
+                </CardHeader>
+                <CardContent></CardContent>
+              </Card>
+            </Suspense>
           </div>
         </div>
       </div>
