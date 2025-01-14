@@ -7,6 +7,7 @@ const base64Key = process.env.NEXT_PRIVATE_GOOGLE_SERVICE_ACCOUNT_KEY!
 const jsonKey = JSON.parse(Buffer.from(base64Key, 'base64').toString('utf8'))
 
 const vertexEndpoint = {
+  hits: `https://us-west1-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-west1/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_HITS_ENDPOINT_ID}:predict`,
   debut: `https://us-south1-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-south1/endpoints/${process.env.NEXT_PRIVATE_VERTEX_MLB_DEBUT_ENDPOINT_ID}:predict`,
   homerun: `https://us-south1-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-south1/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_HR_ENDPOINT_ID}:predict`,
   war: `https://us-east4-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-east4/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_WAR_ENDPOINT_ID}:predict`,
@@ -283,17 +284,27 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({ instances: [instanceMapData] }),
     })
+    const vertexCareerHitsResponse = await fetch(vertexEndpoint.hits, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken.token}`,
+      },
+      body: JSON.stringify({ instances: [instanceMapData] }),
+    })
 
     const batAvgData = await batAvgResponse.json()
     const careerHomerunsData = await careerHomerunsResponse.json()
     const careerWARData = await vertexCareerWARResponse.json()
     const mlbDebutData = await mlbDebutResponse.json()
+    const careerHitsData = await vertexCareerHitsResponse.json()
 
     return NextResponse.json({
       data: {
         batAvg: batAvgData?.predictions?.[0],
-        carrerWar: careerWARData?.predictions?.[0],
-        carrerHomeruns: careerHomerunsData?.predictions?.[0],
+        careerWar: careerWARData?.predictions?.[0],
+        careerHomeruns: careerHomerunsData?.predictions?.[0],
+        careerHits: careerHitsData?.predictions?.[0],
         mlbDebut: mlbDebutData?.predictions?.[0],
       },
     })

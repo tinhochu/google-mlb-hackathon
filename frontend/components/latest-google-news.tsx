@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -73,9 +73,14 @@ async function LatestGoogleNews({ prospect }: { prospect: any }) {
           <Image src="/gemini.svg" alt="Gemini" width={20} height={20} />
           <p className="text-xl font-bold">Latest Google News</p>
         </CardTitle>
+        <CardDescription>
+          {
+            "We used Google's Custom Search to find the latest news about the player. We used the player's name, team, and draft year to search for the latest news."
+          }
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-2 lg:grid-cols-1 gap-4">
           {data.results?.map((item: any) => <LatestGoogleNewsItem item={item} key={item.link} />)}
         </div>
       </CardContent>

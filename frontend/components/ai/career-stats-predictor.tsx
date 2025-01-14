@@ -1,5 +1,7 @@
 import { HistoricalComparison, HistoricalComparisonSkeleton } from '@/components/ai/historical-comparison'
 import { DebutChart } from '@/components/charts/debut-chart'
+import { GaugeChart } from '@/components/charts/gauge-chart'
+import { InfoTooltipIcon } from '@/components/info-tooltip-icon'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { model } from '@/lib/gemini'
@@ -42,44 +44,72 @@ function CareerStatsPredictorSkeleton() {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                 <div className="col-span-1 lg:col-span-12">
                   <div className="grid grid-cols-1 lg:grid-cols-8 gap-4">
-                    <div className="col-span-1 lg:col-span-2 aspect-[3/2]">
+                    <div className="col-span-1 lg:col-span-2">
                       <Card className="h-full">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
+                          <CardTitle className="flex items-center gap-2 justify-between">
                             <p className="text-lg font-bold text-center">Career WAR</p>
+                            <div className="flex items-center justify-center">
+                              <div className="flex items-center justify-center">
+                                <InfoTooltipIcon tooltipContent="Total career Wins Above Replacement" />
+                              </div>
+                            </div>
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="min-h-24"></CardContent>
+                        <CardContent>
+                          <Skeleton className="w-full h-[153px]" />
+                        </CardContent>
                       </Card>
                     </div>
-                    <div className="col-span-1 lg:col-span-2 aspect-[3/2]">
+                    <div className="col-span-1 lg:col-span-2">
                       <Card className="h-full">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2 text-center">
+                          <CardTitle className="flex items-center gap-2 justify-between">
                             <p className="text-lg font-bold text-center">Career H</p>
+                            <div className="flex items-center justify-center">
+                              <div className="flex items-center justify-center">
+                                <InfoTooltipIcon tooltipContent="Total career Hits" />
+                              </div>
+                            </div>
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="min-h-24"></CardContent>
+                        <CardContent>
+                          <Skeleton className="w-full h-[153px]" />
+                        </CardContent>
                       </Card>
                     </div>
-                    <div className="col-span-1 lg:col-span-2 aspect-[3/2]">
+                    <div className="col-span-1 lg:col-span-2">
                       <Card className="h-full">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
+                          <CardTitle className="flex items-center gap-2 justify-between">
                             <p className="text-lg font-bold text-center">Career HR</p>
+                            <div className="flex items-center justify-center">
+                              <div className="flex items-center justify-center">
+                                <InfoTooltipIcon tooltipContent="Total career Home Runs" />
+                              </div>
+                            </div>
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="min-h-24"></CardContent>
+                        <CardContent>
+                          <Skeleton className="w-full h-[153px]" />
+                        </CardContent>
                       </Card>
                     </div>
-                    <div className="col-span-1 lg:col-span-2 aspect-[3/2]">
+                    <div className="col-span-1 lg:col-span-2">
                       <Card className="h-full">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
+                          <CardTitle className="flex items-center gap-2 justify-between">
                             <p className="text-lg font-bold text-center">Career BA</p>
+                            <div className="flex items-center justify-center">
+                              <div className="flex items-center justify-center">
+                                <InfoTooltipIcon tooltipContent="Total career Batting Average" />
+                              </div>
+                            </div>
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="min-h-24"></CardContent>
+                        <CardContent>
+                          <Skeleton className="w-full h-[153px]" />
+                        </CardContent>
                       </Card>
                     </div>
                   </div>
@@ -157,49 +187,104 @@ async function CareerStatsPredictor({ prospect, stats }: { prospect: any; stats:
                 <Image src="/gemini.svg" alt="Gemini" width={20} height={20} />
                 <p className="text-xl font-bold">Vertex Career Stats Predictor</p>
               </CardTitle>
+              <CardDescription>
+                We used minor league stats in a regression model to forecast WAR and predict future performance.
+              </CardDescription>
             </CardHeader>
             <CardContent className="px-0">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
                 <div className="col-span-1 lg:col-span-12">
                   <div className="grid grid-cols-1 lg:grid-cols-8 gap-4">
-                    <div className="col-span-1 lg:col-span-2 aspect-[3/2]">
+                    <div className="col-span-1 lg:col-span-2">
                       <Card className="h-full">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
+                          <CardTitle className="flex items-center gap-2 justify-between">
                             <p className="text-lg font-bold text-center">Career WAR</p>
+                            <div className="flex items-center justify-center">
+                              <div className="flex items-center justify-center">
+                                <InfoTooltipIcon tooltipContent="Total career Wins Above Replacement" />
+                              </div>
+                            </div>
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="min-h-24"></CardContent>
+                        <CardContent className="">
+                          <div className="flex items-center justify-center [&>span]:text-7xl [&>span]:font-bold">
+                            <GaugeChart
+                              value={parseFloat(body.data?.careerWar?.value ?? '0')}
+                              lowerLimit={Math.max(parseFloat(body.data?.careerWar?.lower_bound ?? '0'), 0.01)}
+                              upperLimit={parseFloat(body.data?.careerWar?.upper_bound ?? '0')}
+                            />
+                          </div>
+                        </CardContent>
                       </Card>
                     </div>
-                    <div className="col-span-1 lg:col-span-2 aspect-[3/2]">
-                      <Card className="h-full">
+                    <div className="col-span-1 lg:col-span-2">
+                      <Card className="h-full overflow-hidden">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2 text-center">
+                          <CardTitle className="flex items-center gap-2 justify-between">
                             <p className="text-lg font-bold text-center">Career H</p>
+                            <div className="flex items-center justify-center">
+                              <div className="flex items-center justify-center">
+                                <InfoTooltipIcon tooltipContent="Total career Hits" />
+                              </div>
+                            </div>
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="min-h-24"></CardContent>
+                        <CardContent className="">
+                          <div className="flex items-center justify-center [&>span]:text-7xl [&>span]:font-bold">
+                            <GaugeChart
+                              value={parseFloat(body.data?.careerHits?.value ?? '0')}
+                              lowerLimit={Math.max(parseFloat(body.data?.careerHits?.lower_bound ?? '0'), 1)}
+                              upperLimit={parseFloat(body.data?.careerHits?.upper_bound ?? '0')}
+                            />
+                          </div>
+                        </CardContent>
                       </Card>
                     </div>
-                    <div className="col-span-1 lg:col-span-2 aspect-[3/2]">
+                    <div className="col-span-1 lg:col-span-2">
                       <Card className="h-full">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
+                          <CardTitle className="flex items-center gap-2 justify-between">
                             <p className="text-lg font-bold text-center">Career HR</p>
+                            <div className="flex items-center justify-center">
+                              <div className="flex items-center justify-center">
+                                <InfoTooltipIcon tooltipContent="Total career Home Runs" />
+                              </div>
+                            </div>
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="min-h-24"></CardContent>
+                        <CardContent className="">
+                          <div className="flex items-center justify-center [&>span]:text-7xl [&>span]:font-bold">
+                            <GaugeChart
+                              value={parseFloat(body.data?.careerHomeruns?.value ?? '0')}
+                              lowerLimit={Math.max(parseFloat(body.data?.careerHomeruns?.lower_bound ?? '0'), 1)}
+                              upperLimit={parseFloat(body.data?.careerHomeruns?.upper_bound ?? '0')}
+                            />
+                          </div>
+                        </CardContent>
                       </Card>
                     </div>
-                    <div className="col-span-1 lg:col-span-2 aspect-[3/2]">
+                    <div className="col-span-1 lg:col-span-2">
                       <Card className="h-full">
                         <CardHeader>
-                          <CardTitle className="flex items-center gap-2">
+                          <CardTitle className="flex items-center gap-2 justify-between">
                             <p className="text-lg font-bold text-center">Career BA</p>
+                            <div className="flex items-center justify-center">
+                              <div className="flex items-center justify-center">
+                                <InfoTooltipIcon tooltipContent="Total career Batting Average" />
+                              </div>
+                            </div>
                           </CardTitle>
                         </CardHeader>
-                        <CardContent className="min-h-24"></CardContent>
+                        <CardContent className="">
+                          <div className="flex items-center justify-center [&>span]:text-7xl [&>span]:font-bold">
+                            <GaugeChart
+                              value={parseFloat(body.data?.batAvg?.value ?? '0')}
+                              lowerLimit={Math.max(parseFloat(body.data?.batAvg?.lower_bound ?? '0'), 0.01)}
+                              upperLimit={parseFloat(body.data?.batAvg?.upper_bound ?? '0')}
+                            />
+                          </div>
+                        </CardContent>
                       </Card>
                     </div>
                   </div>

@@ -1,6 +1,6 @@
 import { Counter } from '@/components/counter'
 import GPTTypingEffect from '@/components/gpt-typing-effect'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { model } from '@/lib/gemini'
 import * as Sentry from '@sentry/nextjs'
@@ -108,6 +108,11 @@ async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats:
                 <Image src="/gemini.svg" alt="Gemini" width={20} height={20} />
                 <p className="text-xl font-bold">Gemini Injury Susceptibility Report</p>
               </CardTitle>
+              <CardDescription>
+                {
+                  "Based on the scouting report and stats, we forecasted the player's grades. Injury susceptibility is based on the player's position and the likelihood of injury."
+                }
+              </CardDescription>
             </CardHeader>
             <CardContent className="min-h-24">
               <GPTTypingEffect text={json?.synopsis ?? ''} />

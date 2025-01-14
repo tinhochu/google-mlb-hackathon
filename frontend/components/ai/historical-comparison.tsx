@@ -2,7 +2,7 @@
 
 import { Counter } from '@/components/counter'
 import GPTTypingEffect from '@/components/gpt-typing-effect'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import apiClient from '@/lib/apiClient'
 import { cn } from '@/lib/utils'
@@ -105,6 +105,11 @@ function HistoricalComparison({ playersData }: Props) {
           <Image src="/gemini.svg" alt="Gemini" width={20} height={20} className={cn(fetching && 'animate-spin')} />
           <p className="text-xl font-bold">Gemini Historical Comparison</p>
         </CardTitle>
+        <CardDescription>
+          {
+            'Forecasted WAR, BA, HR, and H using minor league stats in a regression model, comparing them to historical players.'
+          }
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 gap-4">
@@ -135,7 +140,7 @@ function HistoricalComparison({ playersData }: Props) {
                       <GPTTypingEffect text={player?.explanation} className="text-sm" />
                     </div>
                   </div>
-                  <div className="flex flex-col items-center justify-center gap-2 h-[100px] border-8 border-primary rounded-full">
+                  <div className="flex flex-col items-center justify-center gap-2 w-[100px] h-[100px] border-8 border-primary rounded-full mx-auto">
                     <p className="[&>span]:text-5xl [&>span]:font-bold [&>span]:text-primary relative">
                       <Counter end={player?.similarityPercentage} />
                     </p>
