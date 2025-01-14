@@ -7,11 +7,10 @@ const base64Key = process.env.NEXT_PRIVATE_GOOGLE_SERVICE_ACCOUNT_KEY!
 const jsonKey = JSON.parse(Buffer.from(base64Key, 'base64').toString('utf8'))
 
 const vertexEndpoint = {
-  mlb: {
-    debut: process.env.NEXT_PRIVATE_VERTEX_MLB_DEBUT_ENDPOINT_ID,
-    homerun: process.env.NEXT_PRIVATE_VERTEX_CAREER_HR_ENDPOINT_ID,
-    war: process.env.NEXT_PRIVATE_VERTEX_CAREER_WAR_ENDPOINT_ID,
-  },
+  debut: `https://us-south1-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-south1/endpoints/${process.env.NEXT_PRIVATE_VERTEX_MLB_DEBUT_ENDPOINT_ID}:predict`,
+  homerun: `https://us-south1-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-south1/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_HR_ENDPOINT_ID}:predict`,
+  war: `https://us-east4-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-east4/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_WAR_ENDPOINT_ID}:predict`,
+  batAvg: `https://us-east4-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-east4/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_BATTING_AVG_ENDPOINT_ID}:predict`,
 }
 
 const catsMapping = {
@@ -146,9 +145,6 @@ const getAccessToken = async () => {
   return token
 }
 
-const generateVertexEndpoint = (endpointId: string) =>
-  `https://us-east1-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-east1/endpoints/${endpointId}:predict`
-
 const feetToInches = (height: string) => {
   const match = height.match(/(\d+)' ?(\d+)"/) // Regex to extract feet and inches
 
@@ -202,10 +198,12 @@ const convertStringToNumber = (data: Record<string, any>) => {
   return data
 }
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(req: NextRequest) {
   try {
     // Get the model and data from the request
-    const { model, data } = await req.json()
+    const { data } = await req.json()
 
     // from the data, filter out the keys that are not in the instanceMap keys, create a new object with the filtered keys
     const filteredData = Object.keys(data)
@@ -235,6 +233,14 @@ export async function POST(req: NextRequest) {
         // @ts-ignore
         acc[instanceMap[key]] = String(convertedData[key] ?? 0) // Convert to string
       }
+
+      // check if the value is NaN, if it is, set it to 0
+      // @ts-ignore
+      if (acc[instanceMap[key]] === 'NaN') {
+        // @ts-ignore
+        acc[instanceMap[key]] = '0'
+      }
+
       return acc
     }, {})
 
@@ -242,8 +248,7 @@ export async function POST(req: NextRequest) {
     const accessToken = await getAccessToken()
 
     // Finally, we are going to make a prediction using the vertex model
-    // @ts-ignore
-    const vertexResponse = await fetch(generateVertexEndpoint(vertexEndpoint.mlb[model]), {
+    const batAvgResponse = await fetch(vertexEndpoint.batAvg, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -252,10 +257,46 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({ instances: [instanceMapData] }),
     })
 
-    // TODO: Waiting for the vertex Models to be deployed in order to get the data
-    const vertexData = await vertexResponse.json()
+    const mlbDebutResponse = await fetch(vertexEndpoint.debut, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken.token}`,
+      },
+      body: JSON.stringify({ instances: [instanceMapData] }),
+    })
 
-    return NextResponse.json({ data: instanceMapData })
+    const careerHomerunsResponse = await fetch(vertexEndpoint.homerun, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken.token}`,
+      },
+      body: JSON.stringify({ instances: [instanceMapData] }),
+    })
+
+    const vertexCareerWARResponse = await fetch(vertexEndpoint.war, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken.token}`,
+      },
+      body: JSON.stringify({ instances: [instanceMapData] }),
+    })
+
+    const batAvgData = await batAvgResponse.json()
+    const careerHomerunsData = await careerHomerunsResponse.json()
+    const careerWARData = await vertexCareerWARResponse.json()
+    const mlbDebutData = await mlbDebutResponse.json()
+
+    return NextResponse.json({
+      data: {
+        batAvg: batAvgData?.predictions?.[0],
+        carrerWar: careerWARData?.predictions?.[0],
+        carrerHomeruns: careerHomerunsData?.predictions?.[0],
+        mlbDebut: mlbDebutData?.predictions?.[0],
+      },
+    })
   } catch (error) {
     console.error(error)
     return new NextResponse('Internal Server Error', { status: 500 })

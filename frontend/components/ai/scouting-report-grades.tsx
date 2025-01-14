@@ -2,7 +2,7 @@ import { Counter } from '@/components/counter'
 import GPTTypingEffect from '@/components/gpt-typing-effect'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { model } from '@/lib/gemini'
 import * as Sentry from '@sentry/nextjs'
 import Image from 'next/image'
 
@@ -45,9 +45,6 @@ function ScoutingReportGradesSkeleton() {
 }
 
 async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats: any }) {
-  const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' })
-
   const prompt = `
     You are a professional sports scout. you are evaluating a player. 
     You have a blurb of the player's scouting report.

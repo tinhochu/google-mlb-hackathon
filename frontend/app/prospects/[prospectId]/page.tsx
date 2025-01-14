@@ -1,3 +1,5 @@
+import { CareerStatsPredictor } from '@/components/ai/career-stats-predictor'
+import { CareerStatsPredictorSkeleton } from '@/components/ai/career-stats-predictor'
 import { ScoutingReportGrades, ScoutingReportGradesSkeleton } from '@/components/ai/scouting-report-grades'
 import { LatestGoogleNews, LatestGoogleNewsSkeleton } from '@/components/latest-google-news'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -82,6 +84,11 @@ export default async function ProspectPage({
       </div>
       <div className="max-w-screen-xl mx-auto w-full py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <div className="col-span-1 lg:col-span-12">
+            <Suspense fallback={<CareerStatsPredictorSkeleton />}>
+              <CareerStatsPredictor prospect={data.prospect} stats={data.prospectStats} />
+            </Suspense>
+          </div>
           <div className="col-span-1 lg:col-span-8">
             <div className="flex flex-col gap-4">
               <Suspense fallback={<ScoutingReportGradesSkeleton />}>
@@ -92,16 +99,7 @@ export default async function ProspectPage({
               </Suspense>
             </div>
           </div>
-          <div className="col-span-1 lg:col-span-4">
-            <Suspense fallback={<div>Loading...</div>}>
-              <Card>
-                <CardHeader>
-                  <CardTitle>Gemini Prospect Predictions</CardTitle>
-                </CardHeader>
-                <CardContent></CardContent>
-              </Card>
-            </Suspense>
-          </div>
+          <div className="col-span-1 lg:col-span-4"></div>
         </div>
       </div>
     </div>
