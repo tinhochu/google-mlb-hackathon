@@ -84,11 +84,9 @@ export default async function ProspectPage({
       </div>
       <div className="max-w-screen-xl mx-auto w-full py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <div className="col-span-1 lg:col-span-12">
-            <Suspense fallback={<CareerStatsPredictorSkeleton />}>
-              <CareerStatsPredictor prospect={data.prospect} stats={data.prospectStats} />
-            </Suspense>
-          </div>
+          <Suspense fallback={<CareerStatsPredictorSkeleton />}>
+            <CareerStatsPredictor prospect={data.prospect} stats={data.prospectStats} />
+          </Suspense>
           <div className="col-span-1 lg:col-span-8">
             <div className="flex flex-col gap-4">
               <Suspense fallback={<ScoutingReportGradesSkeleton />}>

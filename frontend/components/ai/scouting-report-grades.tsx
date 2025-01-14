@@ -15,7 +15,7 @@ function ScoutingReportGradesSkeleton() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Image src="/gemini.svg" alt="Gemini" width={20} height={20} className="animate-spin" />
-            <p className="text-xl font-bold">Gemini Synopsis</p>
+            <p className="text-xl font-bold">Gemini Injury Susceptibility Report</p>
           </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
@@ -46,7 +46,7 @@ function ScoutingReportGradesSkeleton() {
 
 async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats: any }) {
   const prompt = `
-    You are a professional sports scout. you are evaluating a player. 
+    You are a professional sports scout. you are evaluating a player.
     You have a blurb of the player's scouting report.
     You have the player's height, weight, and age.
     you have the player's position.
@@ -64,7 +64,6 @@ async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats:
     Run: "Surprising athleticism for his size" with 5 stolen bases in 200 ABs. This isn't speed-demon level, so a slightly above average mark Grade: 55
     Field: "Average defender" and 10 errors is not great. But, the 1B spot has a low defensive bar. Grade: 45
     Arm: "Strong arm" but since its a 1B and not a key defensive position it won't contribute too heavily. Grade 50
-    
     the categories we're looking at. Typical ones include:
     Hit: Ability to make consistent contact with the ball.
     Power: Raw power, ability to hit for extra bases and home runs.
@@ -84,12 +83,12 @@ async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats:
     the scouting report: ${prospect.blurb}
     the stats: ${JSON.stringify(stats)}
 
-    add another key to root output called synopsis and give me a short summary of the player.
+    add another key to root output called synopsis and give me a short summary of the player focusing on the probability of success and their susceptibility to sports injuries.
 
     please give me JSON output with the following keys:
     - gradingScale
-
-    remove the \`\`\`json from the output
+    - synopsis
+    remove the \\\json from the output
   `
 
   try {
@@ -107,7 +106,7 @@ async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats:
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Image src="/gemini.svg" alt="Gemini" width={20} height={20} />
-                <p className="text-xl font-bold">Gemini Synopsis</p>
+                <p className="text-xl font-bold">Gemini Injury Susceptibility Report</p>
               </CardTitle>
             </CardHeader>
             <CardContent className="min-h-24">

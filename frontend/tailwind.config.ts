@@ -52,6 +52,7 @@ export default {
         },
         mlb: {
           primary: 'hsl(var(--mlb-primary))',
+          red: 'hsl(var(--mlb-red))',
         },
       },
       borderRadius: {

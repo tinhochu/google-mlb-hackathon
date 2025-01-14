@@ -28,12 +28,13 @@ body {
     --input: 214.3 31.8% 91.4%;
     --ring: 221.2 83.2% 53.3%;
     --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
     --mlb-primary: 215 89% 14%;
+    --mlb-red: 343 87% 40%;
+    --chart-1: var(--mlb-red);
+    --chart-2: var(--mlb-primary);
+    --chart-3: 173 58% 39%;
+    --chart-4: 197 37% 24%;
+    --chart-5: 27 87% 67%;
   }
 
   .dark {
@@ -62,6 +63,7 @@ body {
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
     --mlb-primary: 215 89% 14%;
+    --mlb-red: 343 87% 40%;
   }
 }
 

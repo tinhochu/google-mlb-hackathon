@@ -5,31 +5,7 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '
 import { Pie, PieChart, Sector } from 'recharts'
 import { PieSectorDataItem } from 'recharts/types/polar/Pie'
 
-const chartConfig = {
-  visitors: {
-    label: 'Visitors',
-  },
-  chrome: {
-    label: 'Chrome',
-    color: 'hsl(var(--chart-1))',
-  },
-  safari: {
-    label: 'Safari',
-    color: 'hsl(var(--chart-2))',
-  },
-  firefox: {
-    label: 'Firefox',
-    color: 'hsl(var(--chart-3))',
-  },
-  edge: {
-    label: 'Edge',
-    color: 'hsl(var(--chart-4))',
-  },
-  other: {
-    label: 'Other',
-    color: 'hsl(var(--chart-5))',
-  },
-} satisfies ChartConfig
+const chartConfig = {} satisfies ChartConfig
 
 export function DebutChart({ data }: { data: any }) {
   const chartData = data?.classes?.map((classLabel: string, index: number) => ({
@@ -47,7 +23,7 @@ export function DebutChart({ data }: { data: any }) {
         <CardDescription>Calculated based on the first Season of the Minor League Season</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
-        <ChartContainer config={chartConfig} className="mx-auto aspect-square max-h-[250px]">
+        <ChartContainer config={chartConfig} className="mx-auto aspect-[3/2] max-h-[250px]">
           <PieChart>
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Pie
