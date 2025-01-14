@@ -113,9 +113,9 @@ function HistoricalComparison({ playersData }: Props) {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-1 gap-4">
-          {players.map((player) => {
+          {players.map((player, index) => {
             return (
-              <div key={player?.id} className="col-span-1">
+              <div key={index} className="col-span-1">
                 <div className="grid grid-cols-1 lg:grid-cols-[1fr_100px] gap-2">
                   <div className="flex flex-col gap-2">
                     <Link

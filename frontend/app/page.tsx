@@ -1,5 +1,4 @@
 import HackathonAlert from '@/components/hackathon-alert'
-import { ProspectsCarousel } from '@/components/prospects-carousel'
 import { columns } from '@/components/tables/prospects/columns'
 import { DataTable } from '@/components/tables/prospects/data-table'
 import { Prospect } from '@/types'

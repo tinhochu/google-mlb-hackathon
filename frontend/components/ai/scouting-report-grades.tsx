@@ -120,8 +120,8 @@ async function ScoutingReportGrades({ prospect, stats }: { prospect: any; stats:
           </Card>
         </div>
         {Object.entries(scoutingGrades).map(([key, value]) => (
-          <div className="col-span-1">
-            <Card key={key}>
+          <div className="col-span-1" key={key}>
+            <Card>
               <CardHeader>
                 <CardTitle className="text-center uppercase font-bold">{key}</CardTitle>
               </CardHeader>

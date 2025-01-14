@@ -18,8 +18,8 @@ export default async function ProspectPage({
   params,
   searchParams,
 }: {
-  params: { prospectId: string }
-  searchParams: { teamId: string; year: string }
+  params: Promise<{ prospectId: string }>
+  searchParams: Promise<{ teamId: string; year: string }>
 }) {
   const { prospectId } = await params
   const { teamId, year } = await searchParams

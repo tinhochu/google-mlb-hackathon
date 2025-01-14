@@ -1,15 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(
-  req: NextRequest,
-  { params, searchParams }: { params: { prospectId: string }; searchParams: { teamId: string; year: string } }
-) {
+export async function GET(request: NextRequest) {
   try {
-    const { prospectId } = await params
-    const { searchParams } = new URL(req.url)
+    const url = new URL(request.url)
+    const pathSegments = url.pathname.split('/')
+    const prospectId = pathSegments[pathSegments.length - 1]
 
-    const teamId = searchParams.get('teamId')
-    const year = searchParams.get('year')
+    const teamId = url.searchParams.get('teamId')
+    const year = url.searchParams.get('year')
 
     // Fetch both the prospect and their stats concurrently
     const [prospectResponse, prospectStatsResponse, prospectImgBackgroundResponse, teamResponse] = await Promise.all([
