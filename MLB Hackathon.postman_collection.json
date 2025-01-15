@@ -275,7 +275,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyBjaGzJHcujatmWzzkPxgh-059bgEXEElA&q=Travis Bazzana&sort=date&cx=83e6c545575074489",
+					"raw": "https://customsearch.googleapis.com/customsearch/v1?key={{GOOGLE_CUSTOM_SEARCH_API_KEY}}&q=Travis Bazzana&sort=date&cx=83e6c545575074489",
 					"protocol": "https",
 					"host": [
 						"customsearch",
@@ -289,7 +289,7 @@
 					"query": [
 						{
 							"key": "key",
-							"value": "AIzaSyBjaGzJHcujatmWzzkPxgh-059bgEXEElA"
+							"value": "{{GOOGLE_CUSTOM_SEARCH_API_KEY}}"
 						},
 						{
 							"key": "q",
