@@ -1,0 +1,387 @@
+{
+	"info": {
+		"_postman_id": "6154190f-cf7a-48fa-8467-d81ce9e58eb3",
+		"name": "MLB Hackathon",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "408836"
+	},
+	"item": [
+		{
+			"name": "algolia",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"requests\": [\n        {\n            \"indexName\": \"mlb-players\",\n            \"params\": \"highlightPreTag=%3Cais-highlight-0000000000%3E&highlightPostTag=%3C%2Fais-highlight-0000000000%3E&filters=culture%3Aen-us&query=bobby+abreu&hitsPerPage=5&facets=%5B%5D&tagFilters=\"\n        }\n    ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://yvo49oxzy7-dsn.algolia.net/1/indexes/*/queries?x-algolia-agent=Algolia%20for%20JavaScript%20(4.8.2)%3B%20Browser%20(lite)&x-algolia-api-key=2305f7af47eda36d30e1fa05f9986e56&x-algolia-application-id=YVO49OXZY7",
+					"protocol": "https",
+					"host": [
+						"yvo49oxzy7-dsn",
+						"algolia",
+						"net"
+					],
+					"path": [
+						"1",
+						"indexes",
+						"*",
+						"queries"
+					],
+					"query": [
+						{
+							"key": "x-algolia-agent",
+							"value": "Algolia%20for%20JavaScript%20(4.8.2)%3B%20Browser%20(lite)"
+						},
+						{
+							"key": "x-algolia-api-key",
+							"value": "2305f7af47eda36d30e1fa05f9986e56"
+						},
+						{
+							"key": "x-algolia-application-id",
+							"value": "YVO49OXZY7"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "fangraphs Search Endpoint",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "search-cty1wzhqd1pqueai45ccxh7y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"Chipper Jones\",\n    \"search_fields\": {\n        \"name\": {}\n    },\n    \"result_fields\": {\n        \"id\": {\n            \"raw\": {}\n        },\n        \"name\": {\n            \"raw\": {}\n        },\n        \"lastname\": {\n            \"raw\": {}\n        },\n        \"namekorean\": {\n            \"raw\": {}\n        },\n        \"debut_season\": {\n            \"raw\": {}\n        },\n        \"last_season\": {\n            \"raw\": {}\n        },\n        \"birthdate\": {\n            \"raw\": {}\n        },\n        \"url\": {\n            \"raw\": {}\n        },\n        \"position\": {\n            \"raw\": {}\n        }\n    },\n    \"filters\": {\n        \"all\": []\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://85798c555f18463c9d3ec7d18778c367.ent-search.us-east1.gcp.elastic-cloud.com/api/as/v1/engines/fangraphs/search.json",
+					"protocol": "https",
+					"host": [
+						"85798c555f18463c9d3ec7d18778c367",
+						"ent-search",
+						"us-east1",
+						"gcp",
+						"elastic-cloud",
+						"com"
+					],
+					"path": [
+						"api",
+						"as",
+						"v1",
+						"engines",
+						"fangraphs",
+						"search.json"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Prospect Request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://statsapi.mlb.com/api/v1/draft/prospects/2023?sortBy=rank&order=DESC",
+					"protocol": "https",
+					"host": [
+						"statsapi",
+						"mlb",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"draft",
+						"prospects",
+						"2023"
+					],
+					"query": [
+						{
+							"key": "sortBy",
+							"value": "rank"
+						},
+						{
+							"key": "order",
+							"value": "DESC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Gather Minor League Stats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://statsapi.mlb.com/api/v1/people/815537/stats?stats=yearByYear,career,yearByYearAdvanced,careerAdvanced&leagueListId=milb_all",
+					"protocol": "https",
+					"host": [
+						"statsapi",
+						"mlb",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"people",
+						"815537",
+						"stats"
+					],
+					"query": [
+						{
+							"key": "gameType",
+							"value": "R",
+							"disabled": true
+						},
+						{
+							"key": "group",
+							"value": "hitting",
+							"disabled": true
+						},
+						{
+							"key": "language",
+							"value": "en",
+							"disabled": true
+						},
+						{
+							"key": "stats",
+							"value": "yearByYear,career,yearByYearAdvanced,careerAdvanced"
+						},
+						{
+							"key": "leagueListId",
+							"value": "milb_all"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ScoutingReport Blurbs",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://statsapi.mlb.com/api/v1/draft/prospects/2017?sortBy=rank&order=DESC&limit=100&offset=0",
+					"protocol": "https",
+					"host": [
+						"statsapi",
+						"mlb",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"draft",
+						"prospects",
+						"2017"
+					],
+					"query": [
+						{
+							"key": "sortBy",
+							"value": "rank"
+						},
+						{
+							"key": "order",
+							"value": "DESC"
+						},
+						{
+							"key": "limit",
+							"value": "100"
+						},
+						{
+							"key": "offset",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Predict MLB Debut",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\": {\n        \"draftYear\": 2024,\n        \"pickOverall\": 61,\n        \"height\": \"6' 2\\\"\",\n        \"weight\": 215,\n        \"primaryPositon\": \"P\",\n        \"battingHand\": \"S\",\n        \"throwingHand\": \"R\",\n        \"draftTeam\": \"Baltimore Orioles\",\n        \"isPitcher\": false,\n        \"gamesPlayed\": 3,\n        \"gamesStarted\": 3,\n        \"groundOuts\": 11,\n        \"airOuts\": 3,\n        \"runs\": 3,\n        \"doubles\": 0,\n        \"triples\": 1,\n        \"homeRuns\": 0,\n        \"strikeOuts\": 7,\n        \"baseOnBalls\": 2,\n        \"intentionalWalks\": 0,\n        \"hits\": 7,\n        \"hitByPitch\": 3,\n        \"avg\": \".250\",\n        \"atBats\": 28,\n        \"obp\": \".364\",\n        \"slg\": \".321\",\n        \"ops\": \".685\",\n        \"caughtStealing\": 0,\n        \"stolenBases\": 0,\n        \"stolenBasePercentage\": \".---\",\n        \"groundIntoDoublePlay\": 2,\n        \"numberOfPitches\": 118,\n        \"era\": \"3.52\",\n        \"inningsPitched\": \"7.2\",\n        \"wins\": 0,\n        \"losses\": 1,\n        \"saves\": 0,\n        \"saveOpportunities\": 0,\n        \"holds\": 0,\n        \"blownSaves\": 0,\n        \"earnedRuns\": 3,\n        \"whip\": \"1.17\",\n        \"battersFaced\": 33,\n        \"outs\": 23,\n        \"gamesPitched\": 3,\n        \"completeGames\": 0,\n        \"shutouts\": 0,\n        \"strikes\": 70,\n        \"strikePercentage\": \".590\",\n        \"hitBatsmen\": 3,\n        \"balks\": 0,\n        \"wildPitches\": 1,\n        \"pickoffs\": 0,\n        \"totalBases\": 9,\n        \"groundOutsToAirouts\": \"3.67\",\n        \"winPercentage\": \".000\",\n        \"pitchesPerInning\": \"15.39\",\n        \"gamesFinished\": 0,\n        \"strikeoutWalkRatio\": \"3.50\",\n        \"strikeoutsPer9Inn\": \"8.22\",\n        \"walksPer9Inn\": \"2.35\",\n        \"hitsPer9Inn\": \"8.22\",\n        \"runsScoredPer9\": \"3.52\",\n        \"homeRunsPer9\": \"0.00\",\n        \"inheritedRunners\": 0,\n        \"inheritedRunnersScored\": 0,\n        \"catchersInterference\": 0,\n        \"sacBunts\": 0,\n        \"sacFlies\": 0\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/vertex",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"vertex"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Google Search Prospect",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://customsearch.googleapis.com/customsearch/v1?key=AIzaSyBjaGzJHcujatmWzzkPxgh-059bgEXEElA&q=Travis Bazzana&sort=date&cx=83e6c545575074489",
+					"protocol": "https",
+					"host": [
+						"customsearch",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"customsearch",
+						"v1"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "AIzaSyBjaGzJHcujatmWzzkPxgh-059bgEXEElA"
+						},
+						{
+							"key": "q",
+							"value": "Travis Bazzana"
+						},
+						{
+							"key": "sort",
+							"value": "date"
+						},
+						{
+							"key": "cx",
+							"value": "83e6c545575074489"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Unique Prospect By Year and Player ID",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://statsapi.mlb.com/api/v1/draft/2024?playerId=804606",
+					"protocol": "https",
+					"host": [
+						"statsapi",
+						"mlb",
+						"com"
+					],
+					"path": [
+						"api",
+						"v1",
+						"draft",
+						"2024"
+					],
+					"query": [
+						{
+							"key": "playerId",
+							"value": "804606"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "MLB News",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://data-graph.mlb.com/graphql?operationName=GetFeed&variables=%7B%22limit%22%3A3%2C%22language%22%3A%22_US%22%2C%22skip%22%3A0%2C%22slug%22%3A%22sel-mlb-homepage-mixed-feed%22%7D&extensions=%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%224a8b515d4ecbaf86596fe4c97f6751530aa5ce78c85570cb5670ab45ad3f6265%22%7D%7D",
+					"protocol": "https",
+					"host": [
+						"data-graph",
+						"mlb",
+						"com"
+					],
+					"path": [
+						"graphql"
+					],
+					"query": [
+						{
+							"key": "operationName",
+							"value": "GetFeed"
+						},
+						{
+							"key": "variables",
+							"value": "%7B%22limit%22%3A3%2C%22language%22%3A%22_US%22%2C%22skip%22%3A0%2C%22slug%22%3A%22sel-mlb-homepage-mixed-feed%22%7D"
+						},
+						{
+							"key": "extensions",
+							"value": "%7B%22persistedQuery%22%3A%7B%22version%22%3A1%2C%22sha256Hash%22%3A%224a8b515d4ecbaf86596fe4c97f6751530aa5ce78c85570cb5670ab45ad3f6265%22%7D%7D"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
