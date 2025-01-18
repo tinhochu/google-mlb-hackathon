@@ -1,6 +1,19 @@
+![License](https://img.shields.io/github/license/tinhochu/google-mlb-hackathon) ![Last Commit](https://img.shields.io/github/last-commit/tinhochu/google-mlb-hackathon) [![Website](https://img.shields.io/website?url=https%3A%2F%2Fgoogle-mlb-hackathon.vercel.app)](https://google-mlb-hackathon.vercel.app) ![React](https://img.shields.io/badge/Frontend-React-blue?logo=react)
+![Vercel](https://img.shields.io/badge/Hosting-Vercel-blue) ![Next.js](https://img.shields.io/badge/Framework-Next.js-000?logo=next.js) ![Tailwind CSS](https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?logo=tailwind-css) [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/)
+
 ![Banner Image](https://d112y698adiu2z.cloudfront.net/photos/production/challenge_background_images/003/181/709/datas/original.png)
 
 # Google x MLB™ Hackaton 2025
+
+## Author
+
+![Tin Ho Chu](https://github.com/tinhochu.png?size=50)
+
+**Tin Ho Chu**
+
+[![GitHub](https://img.shields.io/badge/GitHub-@tinhochu-181717?logo=github)](https://github.com/tinhochu)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Tin_Ho_Chu-blue?logo=linkedIn)](https://linkedin.com/in/tinhochu)
+[![Twitter](https://img.shields.io/badge/@tinhochu-000000?logo=x)](https://x.com/tinhochu)
 
 ## Demo Video
 
