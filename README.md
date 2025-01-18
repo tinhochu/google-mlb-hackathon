@@ -3,7 +3,7 @@
 
 ![Banner Image](https://d112y698adiu2z.cloudfront.net/photos/production/challenge_background_images/003/181/709/datas/original.png)
 
-# Google x MLB™ Hackaton 2025
+# Google x MLB™ Hackathon 2025
 
 ## Author
 
