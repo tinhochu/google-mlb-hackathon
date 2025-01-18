@@ -29,12 +29,16 @@ Stay tuned as we innovate and bring our ideas to life!
 
 ### Frontend
 
-- NextJS
-- TailwindCSS
-- Shadcn UI
-- Clerk + Firebase
-- Sentry
-- Google Gemini
+- [NextJS](https://nextjs.org)
+- [TailwindCSS](https://tailwindcss.com)
+- [Shadcn UI](https://ui.shadcn.com)
+- [Clerk](https://clerk.com)
+- [Sentry](https://sentry.io)
+- [Google Gemini](https://developers.google.com/gemini)
+
+### Databases
+
+- [Firestore](https://firebase.google.com/products/firestore)
 
 ## Data Sources
 
@@ -46,16 +50,38 @@ Stay tuned as we innovate and bring our ideas to life!
 ## Installation & Setup
 
 1. Clone the repository
-
-## Usage Instructions
+2. Enter the `frontend` directory and run `pnpm install`
+3. get the env variables from the `.env.example` file and put them in the `.env.local` file
+4. to start the development server, run `pnpm dev`
 
 ## Innovation and Creativity
 
-## Team Information
+I'm using Google Cloud's amazing Vertex AI platform to do something really cool - my project takes MLB scouting reports and turns them into easy-to-understand prospect grades using Gemini's smart language abilities. I've combined this with some other great features like up-to-the-minute news updates through Google Custom Search and historical stats to create a fun system that puts professional baseball insights right in fans' hands. It's exciting to see how Vertex AI and Gemini can take complex baseball information and turn it into helpful insights that make the game more engaging for everyone!
 
 ## Acknowledgements
 
+- [Google Cloud](https://cloud.google.com)
+- [Google Gemini](https://developers.google.com/gemini)
+- [Google Custom Search API](https://developers.google.com/custom-search)
+- [Baseball Reference](https://www.baseball-reference.com)
+- [MLB datasets](https://www.kaggle.com/datasets/mlb/mlb-player-data)
+- [Shadcn UI](https://ui.shadcn.com)
+- [TailwindCSS](https://tailwindcss.com)
+- [NextJS](https://nextjs.org)
+- [Clerk](https://clerk.com)
+- [Firebase](https://firebase.google.com)
+- [Sentry](https://sentry.io)
+- [Vercel](https://vercel.com)
+- [Github Actions](https://github.com/features/actions)
+
 ## Known Issues and Future Enhancements
+
+- [ ] Add a better UI for the prospect comparison.
+- [ ] Add a better UI for the prospect scouting report.
+- [ ] Add a better UI for the prospect news.
+- [ ] Add a better UI for the prospect historical data.
+- [ ] Integrate all years from the prospect's career into the prediction.
+- [ ] Integration of LangChain to improve the prediction.
 
 ## License
 
