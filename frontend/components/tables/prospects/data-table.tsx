@@ -2,12 +2,6 @@
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
@@ -32,10 +26,18 @@ import { useEffect, useState } from 'react'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   initialData: TData[]
-  initialYear: string
+  initialYear?: string
+  heading: string
+  isFavorites?: boolean
 }
 
-export function DataTable<TData, TValue>({ columns, initialData, initialYear }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+  columns,
+  initialData,
+  initialYear,
+  heading,
+  isFavorites = false,
+}: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -74,7 +76,10 @@ export function DataTable<TData, TValue>({ columns, initialData, initialYear }: 
           setFetching(false)
         }, 500)
       }
-      fetchProspects()
+
+      if (!isFavorites) {
+        fetchProspects()
+      }
     },
     [year]
   )
@@ -89,12 +94,17 @@ export function DataTable<TData, TValue>({ columns, initialData, initialYear }: 
         setFetching(false)
       }, 500)
     }
-    fetchProspects()
+
+    if (!isFavorites) {
+      fetchProspects()
+    }
   }, [])
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Prospects {year}</h2>
+      <h2 className="text-2xl font-bold mb-4">
+        {heading} {!isFavorites && year}
+      </h2>
       <div className="flex items-center justify-between pb-4 gap-4">
         <div className="flex items-center gap-2">
           <Input
@@ -103,25 +113,27 @@ export function DataTable<TData, TValue>({ columns, initialData, initialYear }: 
             onChange={(event) => table.getColumn('player')?.setFilterValue(event.target.value)}
             className="max-w-md"
           />
-          <Select
-            onValueChange={(value) => {
-              setYear(value)
-            }}
-            value={year}
-          >
-            <SelectTrigger className="w-[130px]">
-              <SelectValue placeholder="Select Year" />
-            </SelectTrigger>
-            <SelectContent>
-              {Array.from({ length: 10 }, (_, i) => i + 2015)
-                .reverse()
-                .map((item) => (
-                  <SelectItem key={item} value={item.toString()}>
-                    {item}
-                  </SelectItem>
-                ))}
-            </SelectContent>
-          </Select>
+          {!isFavorites && (
+            <Select
+              onValueChange={(value) => {
+                setYear(value)
+              }}
+              value={year}
+            >
+              <SelectTrigger className="w-[130px]">
+                <SelectValue placeholder="Select Year" />
+              </SelectTrigger>
+              <SelectContent>
+                {Array.from({ length: 10 }, (_, i) => i + 2015)
+                  .reverse()
+                  .map((item) => (
+                    <SelectItem key={item} value={item.toString()}>
+                      {item}
+                    </SelectItem>
+                  ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
 
         <div className="flex items-center gap-2">

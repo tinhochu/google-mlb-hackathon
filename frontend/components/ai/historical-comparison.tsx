@@ -73,10 +73,7 @@ function HistoricalComparison({ playersData }: Props) {
           const playersData = await Promise.all(
             players.map(async (player) => {
               const { data } = await apiClient.get(`/mlb/players?name=${player.name}`)
-              console.log({
-                ...player,
-                ...data[0], // Assuming data[0] is always valid
-              })
+
               return {
                 ...player,
                 ...data[0], // Assuming data[0] is always valid

@@ -21,7 +21,7 @@ export default async function HomePage() {
     <div className="">
       <div className="mx-auto max-w-screen-xl min-h-lvh mt-4">
         <HackathonAlert />
-        <DataTable columns={columns} initialData={data?.prospects || []} initialYear={'2024'} />
+        <DataTable columns={columns} initialData={data?.prospects || []} initialYear={'2024'} heading="Prospects" />
       </div>
     </div>
   )

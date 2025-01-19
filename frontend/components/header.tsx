@@ -5,6 +5,8 @@ import { ModeToggle } from '@/components/mode-toggle'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { SignInButton, SignedIn, SignedOut, UserButton, useUser } from '@clerk/nextjs'
+import { Heart } from 'lucide-react'
+import Link from 'next/link'
 
 export default function Header() {
   const { isLoaded } = useUser()
@@ -15,7 +17,7 @@ export default function Header() {
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <Logo />
           <div className="flex items-center lg:order-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4">
               {isLoaded ? (
                 <>
                   <SignedOut>
@@ -24,6 +26,9 @@ export default function Header() {
                     </SignInButton>
                   </SignedOut>
                   <SignedIn>
+                    <Link href="/favorites" className="underline">
+                      My Favorites
+                    </Link>
                     <UserButton />
                   </SignedIn>
                 </>

@@ -1,0 +1,1 @@
+ALTER TABLE "users" ALTER COLUMN "favorite_prospects" SET NOT NULL;
