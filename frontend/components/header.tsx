@@ -26,7 +26,7 @@ export default function Header() {
                     </SignInButton>
                   </SignedOut>
                   <SignedIn>
-                    <Link href="/favorites" className="underline">
+                    <Link href="/favorites" className="underline text-white">
                       My Favorites
                     </Link>
                     <UserButton />
