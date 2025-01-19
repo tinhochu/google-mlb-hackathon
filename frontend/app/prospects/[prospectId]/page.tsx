@@ -98,7 +98,7 @@ export default async function ProspectPage({
           <Suspense fallback={<CareerStatsPredictorSkeleton />}>
             <CareerStatsPredictor prospect={data.prospect} stats={data.prospectStats} />
           </Suspense>
-          <div className="col-span-1 lg:col-span-8">
+          <div className="col-span-1 lg:col-span-12">
             <div className="flex flex-col gap-4">
               <Suspense fallback={<ScoutingReportGradesSkeleton />}>
                 <ScoutingReportGrades prospect={data.prospect} stats={data.prospectStats} />
@@ -108,7 +108,6 @@ export default async function ProspectPage({
               </Suspense>
             </div>
           </div>
-          <div className="col-span-1 lg:col-span-4"></div>
         </div>
       </div>
     </div>
