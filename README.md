@@ -51,7 +51,11 @@ Stay tuned as we innovate and bring our ideas to life!
 
 ### Databases
 
-- [Firestore](https://firebase.google.com/products/firestore)
+- [PostgreSQL](https://www.postgresql.org) Via [Vercel Postgres](https://vercel.com/postgres)
+
+### ORM
+
+- [Drizzle ORM](https://orm.drizzle.team)
 
 ## Data Sources
 
