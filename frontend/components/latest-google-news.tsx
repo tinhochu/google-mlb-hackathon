@@ -51,7 +51,7 @@ function LatestGoogleNewsItem({ item }: { item: any }) {
         </div>
       </div>
       <div className="col-span-1 lg:col-span-4">
-        <Link href={item.link} target="_blank" className="text-lg font-bold">
+        <Link href={item.link} target="_blank" className="text-3xl font-bold">
           {item.title}
         </Link>
         <div dangerouslySetInnerHTML={{ __html: item.htmlSnippet }} />
