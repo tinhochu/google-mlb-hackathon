@@ -8,10 +8,10 @@ const jsonKey = JSON.parse(Buffer.from(base64Key, 'base64').toString('utf8'))
 
 const vertexEndpoint = {
   hits: `https://us-west1-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-west1/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_HITS_ENDPOINT_ID}:predict`,
-  debut: `https://us-south1-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-south1/endpoints/${process.env.NEXT_PRIVATE_VERTEX_MLB_DEBUT_ENDPOINT_ID}:predict`,
-  homerun: `https://us-south1-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-south1/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_HR_ENDPOINT_ID}:predict`,
-  war: `https://us-east4-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-east4/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_WAR_ENDPOINT_ID}:predict`,
-  batAvg: `https://us-east4-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-east4/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_BATTING_AVG_ENDPOINT_ID}:predict`,
+  debut: `https://us-central1-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-central1/endpoints/${process.env.NEXT_PRIVATE_VERTEX_MLB_DEBUT_ENDPOINT_ID}:predict`,
+  homerun: `https://us-west2-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-west2/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_HR_ENDPOINT_ID}:predict`,
+  war: `https://us-west3-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-west3/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_WAR_ENDPOINT_ID}:predict`,
+  batAvg: `https://us-west4-aiplatform.googleapis.com/v1/projects/${process.env.NEXT_PRIVATE_VERTEX_PROJECT_ID}/locations/us-west4/endpoints/${process.env.NEXT_PRIVATE_VERTEX_CAREER_BATTING_AVG_ENDPOINT_ID}:predict`,
 }
 
 const catsMapping = {
