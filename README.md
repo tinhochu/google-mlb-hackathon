@@ -1,7 +1,7 @@
 ![License](https://img.shields.io/github/license/tinhochu/google-mlb-hackathon) ![Last Commit](https://img.shields.io/github/last-commit/tinhochu/google-mlb-hackathon) [![Website](https://img.shields.io/website?url=https%3A%2F%2Fgoogle-mlb-hackathon.vercel.app)](https://google-mlb-hackathon.vercel.app) ![React](https://img.shields.io/badge/Frontend-React-blue?logo=react)
 ![Vercel](https://img.shields.io/badge/Hosting-Vercel-blue) ![Next.js](https://img.shields.io/badge/Framework-Next.js-000?logo=next.js) ![Tailwind CSS](https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?logo=tailwind-css) [![Code Style: Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/) ![Drizzle ORM](https://img.shields.io/badge/Drizzle%20ORM-v0.38.4-blue) ![Clerk](https://img.shields.io/badge/Authentication-Clerk-blue?logo=clerk) ![Firebase](https://img.shields.io/badge/Database-Firebase-blue?logo=firebase) ![MongoDB](https://img.shields.io/badge/Database-MongoDB-blue?logo=mongodb) ![Mongoose](https://img.shields.io/badge/Database-Mongoose-blue?logo=mongoose) ![Google Gemini](https://img.shields.io/badge/AI-Google%20Gemini-blue?logo=google-gemini) ![Google Cloud console](https://img.shields.io/badge/Google%20Cloud%20console-blue?logo=google-cloud) ![PostgreSQL](https://img.shields.io/badge/Vercel_PostgreSQL-v0.10.0-316192?logo=postgresql&logoColor=white) ![Sentry](https://img.shields.io/badge/Error%20Tracking-Sentry-blue?logo=sentry)
 
-![Banner Image](https://d112y698adiu2z.cloudfront.net/photos/production/challenge_background_images/003/181/709/datas/original.png)
+![Banner Image](https://assets.getasite.co/assets/sites/17/2025/01/21170807/google-mlb-hackathon.png)
 
 # Google x MLB™ Hackathon 2025
 
