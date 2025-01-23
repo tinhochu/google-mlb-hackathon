@@ -15,13 +15,13 @@ function LatestGoogleNewsSkeleton() {
       <CardContent>
         <div className="flex flex-col gap-4">
           {Array.from({ length: 4 }).map((_, index) => (
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-4" key={index}>
+            <div className="grid grid-cols-1 lg:grid-cols-6 gap-4" key={index}>
               <div className="col-span-1 lg:col-span-1">
                 <div className="aspect-square relative rounded-md overflow-hidden">
                   <Skeleton className="w-[146px] h-[146px]" />
                 </div>
               </div>
-              <div className="col-span-1 lg:col-span-4">
+              <div className="col-span-1 lg:col-span-5">
                 <div className="flex flex-col gap-2">
                   <Skeleton className="w-full h-[20px]" />
                   <Skeleton className="w-full h-[20px]" />
@@ -39,7 +39,7 @@ function LatestGoogleNewsSkeleton() {
 
 function LatestGoogleNewsItem({ item }: { item: any }) {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 lg:grid-cols-6 gap-4">
       <div className="col-span-1 lg:col-span-1">
         <div className="aspect-square relative rounded-md overflow-hidden">
           <Image
@@ -50,7 +50,7 @@ function LatestGoogleNewsItem({ item }: { item: any }) {
           />
         </div>
       </div>
-      <div className="col-span-1 lg:col-span-4">
+      <div className="col-span-1 lg:col-span-5">
         <Link href={item.link} target="_blank" className="text-3xl font-bold">
           {item.title}
         </Link>
