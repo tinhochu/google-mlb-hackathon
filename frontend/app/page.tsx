@@ -19,7 +19,7 @@ export default async function HomePage() {
 
   return (
     <div className="">
-      <div className="mx-auto max-w-screen-xl min-h-lvh mt-4">
+      <div className="mx-auto max-w-screen-xl  mt-4">
         <HackathonAlert />
         <DataTable columns={columns} initialData={data?.prospects || []} initialYear={'2024'} heading="Prospects" />
       </div>

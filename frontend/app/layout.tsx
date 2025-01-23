@@ -1,4 +1,5 @@
 import ClientLayout from '@/components/client-layout'
+import { Footer } from '@/components/footer'
 import Header from '@/components/header'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/toaster'
@@ -34,6 +35,7 @@ export default async function RootLayout({
             <ClientLayout>
               <Header />
               <main>{children}</main>
+              <Footer />
               <Toaster />
             </ClientLayout>
             <Analytics />
