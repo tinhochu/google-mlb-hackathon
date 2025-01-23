@@ -2,12 +2,19 @@
 
 import { followProspectAction } from '@/actions/follow-prospect.action'
 import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/hooks/use-toast'
-import { useAuth } from '@clerk/nextjs'
-import { Heart, HeartOff } from 'lucide-react'
+import { SignInButton, useAuth } from '@clerk/nextjs'
+import { Heart } from 'lucide-react'
 import { useActionState, useEffect, useState } from 'react'
-import { useFormStatus } from 'react-dom'
 
 import { SubmitButton } from './submit-follow-button'
 
@@ -18,13 +25,11 @@ interface Props {
 
 function FollowButton({ prospectId, favoriteProspects }: Props) {
   const { userId } = useAuth()
-  const { pending } = useFormStatus()
   const { toast } = useToast()
   const [formState, formAction] = useActionState(followProspectAction, {
     status: 'idle',
     message: '',
   })
-  const [isLoading, setIsLoading] = useState(false)
   const [isFavorite, setIsFavorite] = useState(favoriteProspects.includes(prospectId))
 
   useEffect(
@@ -39,7 +44,28 @@ function FollowButton({ prospectId, favoriteProspects }: Props) {
     [formState]
   )
 
-  if (!userId) return null
+  if (!userId)
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button className="flex items-center gap-2 text-white">
+            <Heart className="w-6 h-6" />
+            Follow
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-center">Sign in to follow</DialogTitle>
+          </DialogHeader>
+          <DialogDescription className="text-center">You must be signed in to follow a prospect.</DialogDescription>
+          <SignInButton>
+            <Button size="lg" className="w-full">
+              Sign in
+            </Button>
+          </SignInButton>
+        </DialogContent>
+      </Dialog>
+    )
 
   return (
     <form action={formAction}>

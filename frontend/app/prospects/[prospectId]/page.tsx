@@ -82,9 +82,7 @@ export default async function ProspectPage({
                       <p className="text-xl text-white font-bold">{data.team?.name}</p>
                     </div>
                     <div>
-                      {user && (
-                        <FollowButton favoriteProspects={dbUser?.favoriteProspects ?? []} prospectId={prospectId} />
-                      )}
+                      <FollowButton favoriteProspects={dbUser?.favoriteProspects ?? []} prospectId={prospectId} />
                     </div>
                   </div>
                 </div>
