@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/toaster'
 import config from '@/config'
 import { cn } from '@/lib/utils'
 import { ClerkProvider } from '@clerk/nextjs'
+import { OpenPanelComponent } from '@openpanel/nextjs'
 import { Analytics } from '@vercel/analytics/react'
 import type { Metadata } from 'next'
 import { Work_Sans } from 'next/font/google'
@@ -29,6 +30,7 @@ export default async function RootLayout({
 }>) {
   return (
     <ClerkProvider>
+      <OpenPanelComponent clientId={process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID!} trackScreenViews={true} />
       <html lang="en" suppressHydrationWarning>
         <body className={cn(workSans.variable, workSans.className, 'antialiased bg-primary-foreground')}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
