@@ -10,6 +10,7 @@ import { currentUser } from '@clerk/nextjs/server'
 import { ArrowLeft } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { Suspense } from 'react'
 
 import { FollowButton } from './_components/follow-button'
@@ -21,8 +22,13 @@ export default async function ProspectPage({
   params: Promise<{ prospectId: string }>
   searchParams: Promise<{ teamId: string; year: string }>
 }) {
+  // Get the params
   const { prospectId } = await params
   const { teamId, year } = await searchParams
+
+  // If teamId or year are not present, return to home
+  if (!teamId || !year) redirect('/')
+
   const user = await currentUser()
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/mlb/prospects/${prospectId}?teamId=${teamId}&year=${year}`
